@@ -66,7 +66,7 @@ class SeedData {
       type: PropertyType.kos,
       roomGender: RoomGender.mixed,
       status: RoomStatus.tersedia,
-      pricePerMonth: 1200000,
+      pricePerMonth: 1500000,
       imageUrls: [
         'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800',
         'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800',
@@ -728,7 +728,7 @@ class SeedData {
       ownerId: 'mitra-1',
       checkInDate: DateTime(2026, 1, 1),
       durationMonths: 6,
-      totalAmount: 7200000.0,
+      totalAmount: 9000000.0,
       scheme: PaymentScheme.penuh,
       method: PaymentMethod.qris,
       status: TransactionStatus.lunas,

@@ -568,6 +568,8 @@ class _RevenueMini extends StatelessWidget {
             fontSize: 11,
             color: Colors.white60,
           ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
       ],
     );
