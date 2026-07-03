@@ -170,7 +170,11 @@ class _PaymentInstallmentPageState extends State<PaymentInstallmentPage> {
                         ),
                       ),
                       Text(
-                        CurrencyFormatter.format(widget.transaction.amountPerTermin ?? 0),
+                        CurrencyFormatter.format(
+                          (widget.transaction.scheme == PaymentScheme.dp && terminTarget == 2)
+                              ? widget.transaction.totalAmount - (widget.transaction.amountPerTermin ?? 0)
+                              : (widget.transaction.amountPerTermin ?? 0)
+                        ),
                         style: AppTextStyles.priceLg,
                       ),
                     ],
@@ -459,7 +463,13 @@ class _QRISPaymentCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               padding: const EdgeInsets.all(12),
-              child: CustomPaint(painter: _QRDemoPainter()),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.asset(
+                  'assets/images/qris_demo.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
           ),
           const SizedBox(height: 12),
@@ -474,44 +484,4 @@ class _QRISPaymentCard extends StatelessWidget {
   }
 }
 
-class _QRDemoPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = AppColors.textPrimary
-      ..style = PaintingStyle.fill;
 
-    // Draw simple demo QR pattern
-    const s = 8.0;
-    final cols = (size.width / s).floor();
-    final rows = (size.height / s).floor();
-    for (var r = 0; r < rows; r++) {
-      for (var c = 0; c < cols; c++) {
-        if ((r + c) % 3 == 0 || (r * c) % 5 == 0) {
-          canvas.drawRect(Rect.fromLTWH(c * s, r * s, s - 1, s - 1), paint);
-        }
-      }
-    }
-    // Corner markers
-    final markerPaint = Paint()
-      ..color = AppColors.textPrimary
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 3;
-    const markerSize = 40.0;
-    for (final pos in [
-      const Offset(4, 4),
-      Offset(size.width - markerSize - 4, 4),
-      Offset(4, size.height - markerSize - 4),
-    ]) {
-      canvas.drawRect(
-          Rect.fromLTWH(pos.dx, pos.dy, markerSize, markerSize), markerPaint);
-      canvas.drawRect(
-        Rect.fromLTWH(pos.dx + 8, pos.dy + 8, markerSize - 16, markerSize - 16),
-        Paint()..color = AppColors.textPrimary,
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(_) => false;
-}

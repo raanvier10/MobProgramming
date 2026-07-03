@@ -100,7 +100,7 @@ class AppState extends ChangeNotifier {
   bool login(String email, String password) {
     try {
       final user = _users.firstWhere(
-        (u) => u.email == email && u.password == password,
+        (u) => u.email.toLowerCase() == email.toLowerCase() && u.password == password,
       );
       _currentUser = user;
       notifyListeners();
@@ -111,12 +111,12 @@ class AppState extends ChangeNotifier {
   }
 
   bool register(String name, String email, String phone, String password) {
-    final exists = _users.any((u) => u.email == email);
+    final exists = _users.any((u) => u.email.toLowerCase() == email.toLowerCase());
     if (exists) return false;
     final newUser = AppUser(
       id: 'user-${DateTime.now().millisecondsSinceEpoch}',
       name: name,
-      email: email,
+      email: email.toLowerCase(),
       phone: phone,
       password: password,
       role: UserRole.user,
@@ -159,6 +159,11 @@ class AppState extends ChangeNotifier {
       _properties[idx] = updated;
       notifyListeners();
     }
+  }
+
+  void deleteProperty(String id) {
+    _properties.removeWhere((p) => p.id == id);
+    notifyListeners();
   }
 
   void setRoomStatus(String propertyId, RoomStatus status) {
@@ -271,6 +276,29 @@ class AppState extends ChangeNotifier {
     }
   }
 
+  void cancelTransaction(String transactionId) {
+    final idx = _transactions.indexWhere((t) => t.id == transactionId);
+    if (idx != -1) {
+      final t = _transactions[idx];
+      
+      // Hapus tenant sementara yang dibuat saat checkout
+      _tenants.removeWhere((tenant) => tenant.transactionId == transactionId);
+      
+      // Cek apakah ada tenant/transaksi aktif lain di properti ini
+      // Jika tidak ada, kembalikan status ke tersedia
+      final propertyId = t.propertyId;
+      final activeTenants = tenantsForProperty(propertyId);
+      if (activeTenants.isEmpty) {
+        setRoomStatus(propertyId, RoomStatus.tersedia);
+      }
+      
+      // Hapus transaksi dari daftar
+      _transactions.removeAt(idx);
+      
+      notifyListeners();
+    }
+  }
+
   // ── Tenant Actions ────────────────────────────────────────────
   void selesaiSewa(String tenantId) {
     final idx = _tenants.indexWhere((t) => t.id == tenantId);
@@ -295,10 +323,12 @@ class AppState extends ChangeNotifier {
   }) {
     return _properties.where((p) {
       if (query != null && query.isNotEmpty) {
-        final q = query.toLowerCase();
+        final q = query.toLowerCase().trim();
+        final addressWithoutCity = p.fullAddress.toLowerCase().replaceAll(', karawang', '');
+        
         if (!p.name.toLowerCase().contains(q) &&
             !p.area.toLowerCase().contains(q) &&
-            !p.fullAddress.toLowerCase().contains(q)) {
+            !addressWithoutCity.contains(q)) {
           return false;
         }
       }

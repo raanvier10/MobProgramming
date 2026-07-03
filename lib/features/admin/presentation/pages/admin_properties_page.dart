@@ -214,6 +214,30 @@ class _PropertyCardState extends State<_PropertyCard> {
                 SizedBox(width: 6),
                 Text('Edit', style: TextStyle(fontFamily: 'PlusJakartaSans', fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.primary600)),
               ]))),
+          const SizedBox(width: 8),
+          // Delete button
+          GestureDetector(
+            onTap: () {
+              showDialog(context: context, builder: (_) => MitraConfirmDialog(
+                title: 'Hapus Properti?',
+                description: 'Properti ini akan dihapus permanen. Tindakan ini tidak dapat dibatalkan.',
+                confirmLabel: 'Ya, Hapus',
+                icon: Icons.delete_outline_rounded,
+                isDanger: true,
+                onConfirm: () {
+                  appState.deleteProperty(p.id);
+                  showMitraToast(context, 'Properti berhasil dihapus');
+                }));
+            },
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: AppColors.danger50, borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.danger500.withOpacity(0.3)),
+              ),
+              child: const Icon(Icons.delete_outline_rounded, size: 16, color: AppColors.danger700),
+            ),
+          ),
         ])),
       ]),
     );

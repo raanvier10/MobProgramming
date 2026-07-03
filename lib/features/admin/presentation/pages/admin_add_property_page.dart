@@ -58,9 +58,6 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
   void initState() {
     super.initState();
     if (widget.property != null) _loadProperty(widget.property!);
-    // Restore draft
-    final draft = Provider.of<AppState>(context, listen: false).currentDraft;
-    if (widget.property == null && draft != null) _loadDraft(draft);
   }
 
   void _loadProperty(Property p) {
@@ -81,47 +78,8 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
     _imageUrls = List.from(p.imageUrls);
   }
 
-  void _loadDraft(PropertyDraft d) {
-    if (d.name != null) _nameCtrl.text = d.name!;
-    if (d.description != null) _descCtrl.text = d.description!;
-    if (d.pricePerMonth != null)
-      _priceCtrl.text = d.pricePerMonth!.toInt().toString();
-    if (d.area != null) _areaCtrl.text = d.area!;
-    if (d.fullAddress != null) _addressCtrl.text = d.fullAddress!;
-    if (d.dpAmount != null) _dpAmountCtrl.text = d.dpAmount!.toInt().toString();
-    if (d.maxTermin != null) _maxTerminCtrl.text = d.maxTermin.toString();
-    _type = d.type;
-    _gender = d.gender;
-    _facilities = List.from(d.facilities);
-    _isDpEnabled = d.isDpEnabled;
-    _isCicilanEnabled = d.isCicilanEnabled;
-    if (d.latitude != null) {
-      _selectedLocation = LatLng(d.latitude!, d.longitude!);
-      _locationPicked = true;
-    }
-    _imageUrls = List.from(d.imageUrls);
-    _step = d.currentStep;
-  }
-
   void _saveDraft() {
-    context.read<AppState>().saveDraft(PropertyDraft(
-          name: _nameCtrl.text,
-          description: _descCtrl.text,
-          type: _type,
-          gender: _gender,
-          pricePerMonth: double.tryParse(_priceCtrl.text),
-          facilities: _facilities,
-          area: _areaCtrl.text,
-          fullAddress: _addressCtrl.text,
-          latitude: _locationPicked ? _selectedLocation.latitude : null,
-          longitude: _locationPicked ? _selectedLocation.longitude : null,
-          imageUrls: _imageUrls,
-          isDpEnabled: _isDpEnabled,
-          dpAmount: double.tryParse(_dpAmountCtrl.text),
-          isCicilanEnabled: _isCicilanEnabled,
-          maxTermin: int.tryParse(_maxTerminCtrl.text),
-          currentStep: _step,
-        ));
+    // Fitur draft dinonaktifkan atas permintaan user agar form selalu fresh
   }
 
   bool _validateCurrentStep() {
@@ -131,10 +89,14 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
           type: ToastType.error);
       return false;
     }
-    if (_step == 2 && !_locationPicked) {
-      showMitraToast(context, 'Tandai lokasi properti di peta',
-          type: ToastType.error);
-      return false;
+    if (_step == 2) {
+      if (!_formKeys[2].currentState!.validate()) return false;
+      if (!_locationPicked) {
+        showMitraToast(context, 'Tandai lokasi properti di peta',
+            type: ToastType.error);
+        return false;
+      }
+      return true;
     }
     if (_step == 3) return _formKeys[3].currentState?.validate() ?? false;
     return true;
@@ -142,12 +104,10 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
 
   void _next() {
     if (!_validateCurrentStep()) return;
-    _saveDraft();
     setState(() => _step++);
   }
 
   void _back() {
-    _saveDraft();
     setState(() => _step--);
   }
 
@@ -238,7 +198,6 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
           _back();
           return;
         }
-        if (!didPop) _saveDraft();
       },
       child: Scaffold(
         backgroundColor: AppColors.bgPage,
@@ -253,7 +212,6 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
               if (_step > 0)
                 _back();
               else {
-                _saveDraft();
                 Navigator.pop(context);
               }
             },
@@ -495,15 +453,17 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
       Padding(
           padding: const EdgeInsets.all(16),
           child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('Lokasi Properti',
-                style: AppTextStyles.displaySm.copyWith(fontSize: 18)),
-            const SizedBox(height: 4),
-            Text('Ketuk peta untuk menandai lokasi',
-                style: AppTextStyles.bodySm),
-            const SizedBox(height: 12),
-            AppTextField(
-                label: 'Wilayah Karawang',
+              Form(
+                key: _formKeys[2],
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text('Lokasi Properti',
+                      style: AppTextStyles.displaySm.copyWith(fontSize: 18)),
+                  const SizedBox(height: 4),
+                  Text('Ketuk peta untuk menandai lokasi',
+                      style: AppTextStyles.bodySm),
+                  const SizedBox(height: 12),
+                  AppTextField(
+                      label: 'Wilayah Karawang',
                 hint: 'Contoh: Teluk Jambe',
                 controller: _areaCtrl,
                 validator: (v) => v!.isEmpty ? 'Wajib diisi' : null),
@@ -514,7 +474,7 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
                 controller: _addressCtrl,
                 maxLines: 2,
                 validator: (v) => v!.isEmpty ? 'Wajib diisi' : null),
-          ])),
+          ]))),
       Expanded(
           child: Stack(children: [
         FlutterMap(

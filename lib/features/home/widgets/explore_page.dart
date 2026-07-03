@@ -20,8 +20,16 @@ class ExplorePage extends StatefulWidget {
 
 class _ExplorePageState extends State<ExplorePage> {
   final MapController _mapController = MapController();
+  final TextEditingController _searchCtrl = TextEditingController();
   Property? _selectedProperty;
   String? _selectedArea;
+  String _searchQuery = '';
+
+  @override
+  void dispose() {
+    _searchCtrl.dispose();
+    super.dispose();
+  }
 
   // Center of Karawang
   static final _karawangCenter = LatLng(-6.3021, 107.3010);
@@ -29,9 +37,10 @@ class _ExplorePageState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
     final appState = context.watch<AppState>();
-    final properties = _selectedArea != null
-        ? appState.searchProperties(area: _selectedArea)
-        : appState.allProperties;
+    final properties = appState.searchProperties(
+      query: _searchQuery,
+      area: _selectedArea,
+    );
 
     return Scaffold(
       backgroundColor: AppColors.bgPage,
@@ -103,21 +112,43 @@ class _ExplorePageState extends State<ExplorePage> {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       decoration: BoxDecoration(
                         color: AppColors.bgSurface,
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(24),
                         boxShadow: const [
                           BoxShadow(color: Color(0x1A1C1917), blurRadius: 8),
                         ],
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.map_rounded, color: AppColors.primary500, size: 20),
+                          const Icon(Icons.search_rounded, color: AppColors.primary500, size: 20),
                           const SizedBox(width: 10),
                           Expanded(
-                            child: Text(
-                              'Peta Karawang — ${properties.length} hunian',
+                            child: TextField(
+                              controller: _searchCtrl,
+                              onChanged: (val) => setState(() => _searchQuery = val),
                               style: AppTextStyles.labelLg,
+                              decoration: InputDecoration(
+                                hintText: 'Cari di Peta (${properties.length} hunian)',
+                                hintStyle: AppTextStyles.labelLg.copyWith(color: AppColors.textTertiary),
+                                border: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                focusedErrorBorder: InputBorder.none,
+                                filled: false,
+                                isDense: true,
+                                contentPadding: EdgeInsets.zero,
+                              ),
                             ),
                           ),
+                          if (_searchQuery.isNotEmpty)
+                            GestureDetector(
+                              onTap: () {
+                                _searchCtrl.clear();
+                                setState(() => _searchQuery = '');
+                                FocusScope.of(context).unfocus();
+                              },
+                              child: const Icon(Icons.close_rounded, color: AppColors.textTertiary, size: 18),
+                            ),
                         ],
                       ),
                     ),

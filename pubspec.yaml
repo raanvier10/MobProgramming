@@ -35,6 +35,7 @@ flutter:
   # 1. DAFTARKAN FOLDER GAMBAR KAMU DI SINI (WAJIB!)
   assets:
     - assets/images/
+    - assets/images/qris_demo.png
 
   # Definisikan font global di sini
   fonts:

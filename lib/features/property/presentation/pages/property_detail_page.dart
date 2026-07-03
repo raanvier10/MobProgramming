@@ -61,6 +61,10 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
                             imageUrl: prop.imageUrls[i],
                             fit: BoxFit.cover,
                             placeholder: (_, __) => Container(color: AppColors.neutral200),
+                            errorWidget: (_, __, ___) => Container(
+                              color: AppColors.neutral200,
+                              child: const Icon(Icons.broken_image_rounded, size: 64, color: AppColors.neutral300),
+                            ),
                           )
                         : Container(
                             color: AppColors.neutral200,

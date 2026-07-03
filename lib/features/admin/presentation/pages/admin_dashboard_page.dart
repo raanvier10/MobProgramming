@@ -326,6 +326,25 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                     ),
                     const SizedBox(height: 24),
 
+                    // ── Recent Transactions ───────────────────
+                    SectionHeader(title: 'Transaksi Terbaru'),
+                    const SizedBox(height: 12),
+                    if (transactions.isEmpty)
+                      const EmptyState(
+                        icon: Icons.receipt_long_outlined,
+                        title: 'Belum Ada Transaksi',
+                        description:
+                            'Transaksi dari properti Anda akan muncul di sini.',
+                      )
+                    else
+                      ...transactions.take(5).map(
+                            (t) => Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: _MitraTransactionMini(transaction: t),
+                            ),
+                          ),
+                    const SizedBox(height: 20),
+
                     // ── Gabungan: Properti + Penghuni + Tagihan ──
                     SectionHeader(
                       title: 'Daftar Kamar / Unit',
@@ -351,25 +370,6 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                           ),
                         ),
                       ),
-                    const SizedBox(height: 20),
-
-                    // ── Recent Transactions ───────────────────
-                    SectionHeader(title: 'Transaksi Terbaru'),
-                    const SizedBox(height: 12),
-                    if (transactions.isEmpty)
-                      const EmptyState(
-                        icon: Icons.receipt_long_outlined,
-                        title: 'Belum Ada Transaksi',
-                        description:
-                            'Transaksi dari properti Anda akan muncul di sini.',
-                      )
-                    else
-                      ...transactions.take(5).map(
-                            (t) => Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              child: _MitraTransactionMini(transaction: t),
-                            ),
-                          ),
                     const SizedBox(height: 80),
                   ],
                 ),

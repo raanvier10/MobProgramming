@@ -95,8 +95,8 @@ class SeedData {
       status: RoomStatus.tersedia,
       pricePerMonth: 1500000,
       imageUrls: [
-        'https://images.unsplash.com/photo-1560448204-e02f11c45781?w=800',
-        'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800',
+        'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800',
+        'https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800',
       ],
       facilities: ['Wi-Fi', 'AC', 'Kamar Mandi Dalam', 'Laundry', 'CCTV'],
       area: 'Cikampek',
@@ -214,7 +214,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-7',
-      name: 'Kos Elite Majalaya 7',
+      name: 'Kos Elite Cikampek 7',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kos,
       roomGender: RoomGender.male,
@@ -235,7 +235,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-8',
-      name: 'Kos Mahasiswa Klari 8',
+      name: 'Kos Mahasiswa Cikampek 8',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kontrakan,
       roomGender: RoomGender.female,
@@ -256,7 +256,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-9',
-      name: 'Kos Sentosa Majalaya 9',
+      name: 'Kos Sentosa Karawang Kota 9',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kos,
       roomGender: RoomGender.male,
@@ -277,7 +277,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-10',
-      name: 'Kontrakan Family Klari 10',
+      name: 'Kontrakan Family Majalaya 10',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kontrakan,
       roomGender: RoomGender.mixed,
@@ -298,7 +298,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-11',
-      name: 'Kos Nyaman Teluk Jambe 11',
+      name: 'Kos Nyaman Rengasdengklok 11',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kontrakan,
       roomGender: RoomGender.male,
@@ -319,7 +319,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-12',
-      name: 'Kos Nusantara Teluk Jambe 12',
+      name: 'Kos Nusantara Klari 12',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kos,
       roomGender: RoomGender.mixed,
@@ -340,7 +340,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-13',
-      name: 'Kos VIP Klari 13',
+      name: 'Kos VIP Rengasdengklok 13',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kos,
       roomGender: RoomGender.male,
@@ -361,7 +361,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-14',
-      name: 'Kontrakan Amanah Majalaya 14',
+      name: 'Kontrakan Amanah Klari 14',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kos,
       roomGender: RoomGender.mixed,
@@ -382,7 +382,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-15',
-      name: 'Kos Hijau Klari 15',
+      name: 'Kos Hijau Cikampek 15',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kos,
       roomGender: RoomGender.female,
@@ -403,7 +403,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-16',
-      name: 'Kos Mawar Majalaya 16',
+      name: 'Kos Mawar Klari 16',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kos,
       roomGender: RoomGender.male,
@@ -424,7 +424,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-17',
-      name: 'Kos Mahasiswa Karawang Kota 17',
+      name: 'Kos Mahasiswa Cikampek 17',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kontrakan,
       roomGender: RoomGender.female,
@@ -445,7 +445,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-18',
-      name: 'Kos Murah Ciampel 18',
+      name: 'Kos Murah Klari 18',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kontrakan,
       roomGender: RoomGender.female,
@@ -466,7 +466,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-19',
-      name: 'Kos Sentosa Klari 19',
+      name: 'Kos Sentosa Cikampek 19',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kontrakan,
       roomGender: RoomGender.female,
@@ -487,7 +487,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-20',
-      name: 'Kos Asri Klari 20',
+      name: 'Kos Asri Cikampek 20',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kos,
       roomGender: RoomGender.mixed,
@@ -508,7 +508,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-21',
-      name: 'Kos Murah Majalaya 21',
+      name: 'Kos Murah Cikampek 21',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kontrakan,
       roomGender: RoomGender.female,
@@ -550,7 +550,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-23',
-      name: 'Kontrakan Amanah Teluk Jambe 23',
+      name: 'Kontrakan Amanah Ciampel 23',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kos,
       roomGender: RoomGender.male,
@@ -571,7 +571,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-24',
-      name: 'Kos Pelangi Karawang Kota 24',
+      name: 'Kos Pelangi Rengasdengklok 24',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kontrakan,
       roomGender: RoomGender.mixed,
@@ -592,7 +592,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-25',
-      name: 'Kos Mawar Cikampek 25',
+      name: 'Kos Mawar Karawang Kota 25',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kos,
       roomGender: RoomGender.mixed,
@@ -634,7 +634,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-27',
-      name: 'Kontrakan Family Majalaya 27',
+      name: 'Kontrakan Family Ciampel 27',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kontrakan,
       roomGender: RoomGender.mixed,
@@ -655,7 +655,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-28',
-      name: 'Kos Murah Klari 28',
+      name: 'Kos Murah Karawang Kota 28',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kontrakan,
       roomGender: RoomGender.female,
@@ -676,7 +676,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-29',
-      name: 'Kos VIP Rengasdengklok 29',
+      name: 'Kos VIP Klari 29',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kos,
       roomGender: RoomGender.mixed,
@@ -697,7 +697,7 @@ class SeedData {
     ),
     Property(
       id: 'prop-30',
-      name: 'Kontrakan Sejati Majalaya 30',
+      name: 'Kontrakan Sejati Klari 30',
       description: 'Hunian nyaman dengan fasilitas memadai di kawasan strategis. Sangat cocok untuk mahasiswa maupun pekerja kantoran.',
       type: PropertyType.kos,
       roomGender: RoomGender.female,
@@ -718,7 +718,40 @@ class SeedData {
     ),
   ];
 
-  static final List<AppTransaction> transactions = [];
+  static final List<AppTransaction> transactions = [
+    AppTransaction(
+      id: 'trx-1',
+      userId: 'user-1',
+      userName: 'Budi Santoso',
+      propertyId: 'prop-1',
+      propertyName: 'Kos Harmoni Karawang',
+      ownerId: 'mitra-1',
+      checkInDate: DateTime(2026, 1, 1),
+      durationMonths: 6,
+      totalAmount: 7200000.0,
+      scheme: PaymentScheme.penuh,
+      method: PaymentMethod.qris,
+      status: TransactionStatus.lunas,
+      createdAt: DateTime(2025, 12, 15),
+      vaNumber: '-',
+    ),
+    AppTransaction(
+      id: 'trx-3',
+      userId: 'user-2',
+      userName: 'Sari Dewi',
+      propertyId: 'prop-2',
+      propertyName: 'Kost Melati Cikampek',
+      ownerId: 'mitra-1',
+      checkInDate: DateTime(2026, 2, 1),
+      durationMonths: 12,
+      totalAmount: 18000000.0,
+      scheme: PaymentScheme.penuh,
+      method: PaymentMethod.va,
+      status: TransactionStatus.lunas,
+      createdAt: DateTime(2026, 1, 10),
+      vaNumber: '88012345678',
+    ),
+  ];
 
   // ── Tenants ─────────────────────────────────────────────────
   static final List<Tenant> tenants = [

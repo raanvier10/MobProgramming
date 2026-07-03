@@ -12,19 +12,21 @@ import '../../../../core/widgets/formatters.dart';
 import '../pages/receipt_page.dart';
 
 class PaymentPage extends StatefulWidget {
-  final Property property;
-  final DateTime checkInDate;
-  final int durationMonths;
-  final PaymentScheme scheme;
-  final PaymentMethod method;
+  final Property? property;
+  final DateTime? checkInDate;
+  final int? durationMonths;
+  final PaymentScheme? scheme;
+  final PaymentMethod? method;
+  final AppTransaction? existingTransaction;
 
   const PaymentPage({
     super.key,
-    required this.property,
-    required this.checkInDate,
-    required this.durationMonths,
-    required this.scheme,
-    required this.method,
+    this.property,
+    this.checkInDate,
+    this.durationMonths,
+    this.scheme,
+    this.method,
+    this.existingTransaction,
   });
 
   @override
@@ -60,14 +62,20 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   void _createTransaction() {
+    if (widget.existingTransaction != null) {
+      _transaction = widget.existingTransaction!;
+      setState(() => _isCreated = true);
+      return;
+    }
+    
     final appState = context.read<AppState>();
     try {
       _transaction = appState.createTransaction(
-        property: widget.property,
-        checkInDate: widget.checkInDate,
-        durationMonths: widget.durationMonths,
-        scheme: widget.scheme,
-        method: widget.method,
+        property: widget.property!,
+        checkInDate: widget.checkInDate!,
+        durationMonths: widget.durationMonths!,
+        scheme: widget.scheme!,
+        method: widget.method!,
       );
       setState(() => _isCreated = true);
     } catch (e) {
@@ -84,15 +92,13 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   String get _amountToPay {
-    switch (widget.scheme) {
+    switch (_transaction.scheme) {
       case PaymentScheme.penuh:
-        return CurrencyFormatter.format(
-            widget.property.pricePerMonth * widget.durationMonths);
+        return CurrencyFormatter.format(_transaction.totalAmount);
       case PaymentScheme.dp:
-        return CurrencyFormatter.format(widget.property.dpAmount);
+        return CurrencyFormatter.format(_transaction.amountPerTermin ?? 0);
       case PaymentScheme.cicilan:
-        final total = widget.property.pricePerMonth * widget.durationMonths;
-        return CurrencyFormatter.format(total / widget.property.maxTermin);
+        return CurrencyFormatter.format(_transaction.amountPerTermin ?? 0);
     }
   }
 
@@ -197,23 +203,23 @@ class _PaymentPageState extends State<PaymentPage> {
                   InfoRow(
                       icon: Icons.apartment_rounded,
                       label: 'Properti',
-                      value: widget.property.name),
+                      value: _transaction.propertyName),
                   InfoRow(
                     icon: Icons.calendar_today_outlined,
                     label: 'Check-in',
-                    value: DateFormatter.formatShort(widget.checkInDate),
+                    value: DateFormatter.formatShort(_transaction.checkInDate),
                   ),
                   InfoRow(
                     icon: Icons.access_time_rounded,
                     label: 'Durasi',
-                    value: '${widget.durationMonths} bulan',
+                    value: '${_transaction.durationMonths} bulan',
                   ),
                   InfoRow(
                     icon: Icons.payments_outlined,
                     label: 'Skema',
-                    value: widget.scheme == PaymentScheme.penuh
+                    value: _transaction.scheme == PaymentScheme.penuh
                         ? 'Bayar Penuh'
-                        : widget.scheme == PaymentScheme.dp
+                        : _transaction.scheme == PaymentScheme.dp
                             ? 'DP'
                             : 'Cicilan',
                   ),
@@ -243,9 +249,9 @@ class _PaymentPageState extends State<PaymentPage> {
             const SizedBox(height: 20),
 
             // ── Payment Method Detail ─────────────────────────
-            widget.method == PaymentMethod.va
+            _transaction.method == PaymentMethod.va
                 ? _VAPaymentCard(vaNumber: _transaction.vaNumber)
-                : _QRISPaymentCard(),
+                : const _QRISPaymentCard(),
 
             const SizedBox(height: 24),
 
@@ -311,7 +317,7 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   List<String> _getInstructions() {
-    if (widget.method == PaymentMethod.va) {
+    if (_transaction.method == PaymentMethod.va) {
       return [
         'Buka aplikasi mobile banking atau ATM Anda',
         'Pilih menu Transfer atau Bayar → Virtual Account',
@@ -445,7 +451,13 @@ class _QRISPaymentCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               padding: const EdgeInsets.all(12),
-              child: CustomPaint(painter: _QRDemoPainter()),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.asset(
+                  'assets/images/qris_demo.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
           ),
           const SizedBox(height: 12),
@@ -460,44 +472,4 @@ class _QRISPaymentCard extends StatelessWidget {
   }
 }
 
-class _QRDemoPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = AppColors.textPrimary
-      ..style = PaintingStyle.fill;
 
-    // Draw simple demo QR pattern
-    const s = 8.0;
-    final cols = (size.width / s).floor();
-    final rows = (size.height / s).floor();
-    for (var r = 0; r < rows; r++) {
-      for (var c = 0; c < cols; c++) {
-        if ((r + c) % 3 == 0 || (r * c) % 5 == 0) {
-          canvas.drawRect(Rect.fromLTWH(c * s, r * s, s - 1, s - 1), paint);
-        }
-      }
-    }
-    // Corner markers
-    final markerPaint = Paint()
-      ..color = AppColors.textPrimary
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 3;
-    const markerSize = 40.0;
-    for (final pos in [
-      const Offset(4, 4),
-      Offset(size.width - markerSize - 4, 4),
-      Offset(4, size.height - markerSize - 4),
-    ]) {
-      canvas.drawRect(
-          Rect.fromLTWH(pos.dx, pos.dy, markerSize, markerSize), markerPaint);
-      canvas.drawRect(
-        Rect.fromLTWH(pos.dx + 8, pos.dy + 8, markerSize - 16, markerSize - 16),
-        Paint()..color = AppColors.textPrimary,
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(_) => false;
-}

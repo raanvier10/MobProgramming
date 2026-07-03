@@ -8,6 +8,7 @@ import '../../../../core/widgets/shared_widgets.dart';
 import '../../../../core/widgets/formatters.dart';
 import '../../booking/presentation/pages/booking_page.dart';
 import '../../payment/presentation/pages/payment_installment_page.dart';
+import '../../payment/presentation/pages/payment_page.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -59,30 +60,30 @@ class _HistoryPageState extends State<HistoryPage> {
                 ),
               ),
             ),
-          ),
-          
-          // ── KUSTOM FILTER CHIPS ────────────────────────────────────────
-          SliverToBoxAdapter(
-            child: Container(
-              padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                physics: const BouncingScrollPhysics(),
-                child: Row(
-                  children: [
-                    _buildFilterChip('Semua', null),
-                    const SizedBox(width: 8),
-                    _buildFilterChip('Menunggu', TransactionStatus.pending),
-                    const SizedBox(width: 8),
-                    _buildFilterChip('Lunas', TransactionStatus.lunas),
-                    const SizedBox(width: 8),
-                    _buildFilterChip('Cicilan', TransactionStatus.cicilan),
-                  ],
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(60),
+              child: Container(
+                color: AppColors.bgPage,
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  child: Row(
+                    children: [
+                      _buildFilterChip('Semua', null),
+                      const SizedBox(width: 8),
+                      _buildFilterChip('Menunggu', TransactionStatus.pending),
+                      const SizedBox(width: 8),
+                      _buildFilterChip('Lunas', TransactionStatus.lunas),
+                      const SizedBox(width: 8),
+                      _buildFilterChip('Cicilan', TransactionStatus.cicilan),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-
+          
           // ── KONTEN HALAMAN ─────────────────────────────────────────────
           SliverPadding(
             padding: const EdgeInsets.all(20),
@@ -402,7 +403,8 @@ class TransactionCard extends StatelessWidget {
                       Expanded(
                         child: OutlinedButton(
                           onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Pesanan Dibatalkan')));
+                            context.read<AppState>().cancelTransaction(transaction.id);
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Pesanan Berhasil Dibatalkan')));
                           },
                           style: OutlinedButton.styleFrom(
                             foregroundColor: AppColors.danger700, side: BorderSide(color: AppColors.danger500.withOpacity(0.3)),
@@ -417,7 +419,12 @@ class TransactionCard extends StatelessWidget {
                         flex: 2,
                         child: ElevatedButton(
                           onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Menuju halaman upload bukti...')));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => PaymentPage(existingTransaction: transaction),
+                              ),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primary500, foregroundColor: Colors.white,

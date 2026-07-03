@@ -179,6 +179,11 @@ class PropertyCardMini extends StatelessWidget {
                     ? CachedNetworkImage(
                         imageUrl: property.imageUrls.first,
                         fit: BoxFit.cover,
+                        placeholder: (_, __) => Container(color: AppColors.neutral100),
+                        errorWidget: (_, __, ___) => Container(
+                          color: AppColors.neutral100,
+                          child: const Icon(Icons.apartment_rounded, color: AppColors.neutral300),
+                        ),
                       )
                     : Container(
                         color: AppColors.neutral100,

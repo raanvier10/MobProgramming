@@ -528,7 +528,7 @@ class _HomeHeader extends StatelessWidget {
                         height: 48,
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: BorderRadius.circular(24),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.08),
@@ -559,13 +559,18 @@ class _HomeHeader extends StatelessWidget {
                                 child: Container(
                                   decoration: BoxDecoration(
                                     color: AppColors.primary50,
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(18),
                                   ),
                                   child: const Icon(Icons.tune_rounded, color: AppColors.primary500, size: 18),
                                 ),
                               ),
                             ),
                             border: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            focusedErrorBorder: InputBorder.none,
+                            filled: false,
                             contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 14),
                           ),

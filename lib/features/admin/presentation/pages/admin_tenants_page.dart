@@ -104,7 +104,10 @@ class _TenantCardState extends State<_TenantCard> {
         color: AppColors.bgSurface, borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.borderDefault),
         boxShadow: const [BoxShadow(color: Color(0x081C1917), blurRadius: 8, offset: Offset(0, 2))]),
-      child: Column(children: [
+      child: InkWell(
+        onTap: () => _showTenantDetail(context, t),
+        borderRadius: BorderRadius.circular(16),
+        child: Column(children: [
         // Header
         Padding(padding: const EdgeInsets.all(16), child: Row(children: [
           CircleAvatar(radius: 24, backgroundColor: AppColors.primary100,
@@ -170,7 +173,85 @@ class _TenantCardState extends State<_TenantCard> {
               Text('Diarsipkan: ${DateFormatter.formatShort(t.archivedDate!)}',
                 style: AppTextStyles.bodySm.copyWith(fontSize: 11, color: AppColors.textTertiary)),
             ])),
-      ]),
+        ]),
+      ),
+    );
+  }
+
+  void _showTenantDetail(BuildContext context, Tenant t) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+      builder: (_) => Container(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 40, height: 4,
+                decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(2)),
+              ),
+            ),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                CircleAvatar(
+                  radius: 30,
+                  backgroundColor: AppColors.primary100,
+                  child: Text(t.userName[0].toUpperCase(), style: AppTextStyles.displaySm.copyWith(color: AppColors.primary500, fontSize: 24)),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(t.userName, style: AppTextStyles.displaySm.copyWith(fontSize: 18)),
+                      const SizedBox(height: 4),
+                      Text(t.userPhone, style: AppTextStyles.bodyMd.copyWith(color: AppColors.textSecondary)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            Text('Informasi Sewa', style: AppTextStyles.labelLg),
+            const SizedBox(height: 12),
+            _DetailRow(icon: Icons.apartment_rounded, label: 'Properti', value: t.propertyName),
+            _DetailRow(icon: Icons.door_front_door_outlined, label: 'Kamar', value: t.roomNumber),
+            _DetailRow(icon: Icons.calendar_today_outlined, label: 'Tanggal Masuk', value: DateFormatter.format(t.checkInDate)),
+            _DetailRow(icon: Icons.timelapse_rounded, label: 'Durasi Sewa', value: '${t.durationMonths} Bulan'),
+            _DetailRow(
+              icon: Icons.event_available_outlined, 
+              label: 'Berakhir Pada', 
+              value: DateFormatter.format(t.checkInDate.add(Duration(days: t.durationMonths * 30))),
+            ),
+            if (widget.isActive) ...[
+              const SizedBox(height: 32),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    showMitraToast(context, 'Membuka WhatsApp ke ${t.userPhone}...');
+                  },
+                  icon: const Icon(Icons.chat_rounded, size: 20),
+                  label: const Text('Hubungi via WhatsApp'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF25D366),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                ),
+              ),
+            ],
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
     );
   }
 
@@ -205,5 +286,29 @@ class _DetailCol extends StatelessWidget {
       Text(value, style: AppTextStyles.labelMd.copyWith(fontSize: 12),
         maxLines: 1, overflow: TextOverflow.ellipsis),
     ]));
+  }
+}
+
+class _DetailRow extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String value;
+
+  const _DetailRow({required this.icon, required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        children: [
+          Icon(icon, size: 20, color: AppColors.primary500),
+          const SizedBox(width: 12),
+          Text(label, style: AppTextStyles.bodyMd.copyWith(color: AppColors.textSecondary)),
+          const Spacer(),
+          Text(value, style: AppTextStyles.labelMd.copyWith(color: AppColors.textPrimary)),
+        ],
+      ),
+    );
   }
 }
