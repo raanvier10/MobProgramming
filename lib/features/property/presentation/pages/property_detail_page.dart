@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/di/app_state.dart';
 import '../../../../core/data/models.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -8,6 +9,14 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/shared_widgets.dart';
 import '../../../../core/widgets/formatters.dart';
 import '../../../booking/presentation/pages/booking_page.dart';
+
+String normalizePhoneNumber(String raw) {
+  final digits = raw.replaceAll(RegExp(r'[^0-9+]'), '');
+  if (digits.isEmpty) return raw;
+  if (digits.startsWith('0')) return '+62${digits.substring(1)}';
+  if (digits.startsWith('62')) return '+$digits';
+  return digits;
+}
 
 class PropertyDetailPage extends StatefulWidget {
   final Property property;
@@ -26,7 +35,8 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
     final isAvailable = prop.status == RoomStatus.tersedia;
 
     final myTransactions = context.watch<AppState>().myTransactions;
-    final hasPending = myTransactions.any((t) => t.status == TransactionStatus.pending);
+    final hasPending =
+        myTransactions.any((t) => t.status == TransactionStatus.pending);
 
     return Scaffold(
       backgroundColor: AppColors.bgPage,
@@ -46,7 +56,8 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
                     color: Colors.black38,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white, size: 20),
+                  child: const Icon(Icons.arrow_back_ios_new_rounded,
+                      color: Colors.white, size: 20),
                 ),
               ),
             ),
@@ -54,21 +65,25 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
               background: Stack(
                 children: [
                   PageView.builder(
-                    itemCount: prop.imageUrls.isEmpty ? 1 : prop.imageUrls.length,
+                    itemCount:
+                        prop.imageUrls.isEmpty ? 1 : prop.imageUrls.length,
                     onPageChanged: (i) => setState(() => _currentImage = i),
                     itemBuilder: (_, i) => prop.imageUrls.isNotEmpty
                         ? CachedNetworkImage(
                             imageUrl: prop.imageUrls[i],
                             fit: BoxFit.cover,
-                            placeholder: (_, __) => Container(color: AppColors.neutral200),
+                            placeholder: (_, __) =>
+                                Container(color: AppColors.neutral200),
                             errorWidget: (_, __, ___) => Container(
                               color: AppColors.neutral200,
-                              child: const Icon(Icons.broken_image_rounded, size: 64, color: AppColors.neutral300),
+                              child: const Icon(Icons.broken_image_rounded,
+                                  size: 64, color: AppColors.neutral300),
                             ),
                           )
                         : Container(
                             color: AppColors.neutral200,
-                            child: const Icon(Icons.apartment_rounded, size: 64, color: AppColors.neutral300),
+                            child: const Icon(Icons.apartment_rounded,
+                                size: 64, color: AppColors.neutral300),
                           ),
                   ),
                   // Dot indicators
@@ -87,7 +102,9 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
                             width: _currentImage == i ? 16 : 6,
                             height: 6,
                             decoration: BoxDecoration(
-                              color: _currentImage == i ? Colors.white : Colors.white54,
+                              color: _currentImage == i
+                                  ? Colors.white
+                                  : Colors.white54,
                               borderRadius: BorderRadius.circular(3),
                             ),
                           ),
@@ -114,7 +131,8 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
                         child: Text(prop.name, style: AppTextStyles.displayMd),
                       ),
                       StatusBadge(
-                        type: isAvailable ? BadgeType.tersedia : BadgeType.penuh,
+                        type:
+                            isAvailable ? BadgeType.tersedia : BadgeType.penuh,
                       ),
                     ],
                   ),
@@ -123,12 +141,14 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
                   // Location
                   Row(
                     children: [
-                      const Icon(Icons.location_on_outlined, size: 16, color: AppColors.textTertiary),
+                      const Icon(Icons.location_on_outlined,
+                          size: 16, color: AppColors.textTertiary),
                       const SizedBox(width: 4),
                       Expanded(
                         child: Text(
                           prop.fullAddress,
-                          style: AppTextStyles.bodyMd.copyWith(color: AppColors.textSecondary),
+                          style: AppTextStyles.bodyMd
+                              .copyWith(color: AppColors.textSecondary),
                         ),
                       ),
                     ],
@@ -138,11 +158,13 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
                     onTap: () {},
                     child: Row(
                       children: [
-                        const Icon(Icons.map_outlined, size: 14, color: AppColors.primary500),
+                        const Icon(Icons.map_outlined,
+                            size: 14, color: AppColors.primary500),
                         const SizedBox(width: 4),
                         Text(
                           'Lihat di Peta',
-                          style: AppTextStyles.labelSm.copyWith(color: AppColors.primary500),
+                          style: AppTextStyles.labelSm
+                              .copyWith(color: AppColors.primary500),
                         ),
                       ],
                     ),
@@ -162,7 +184,7 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Harga Sewa', style: AppTextStyles.labelSm),
+                            const Text('Harga Sewa', style: AppTextStyles.labelSm),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
@@ -170,7 +192,7 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
                                   CurrencyFormatter.format(prop.pricePerMonth),
                                   style: AppTextStyles.priceLg,
                                 ),
-                                Text(
+                                const Text(
                                   ' / bulan',
                                   style: AppTextStyles.bodySm,
                                 ),
@@ -181,14 +203,16 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
                         const Spacer(),
                         // Type badge
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 6),
                           decoration: BoxDecoration(
                             color: AppColors.primary500,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
                             prop.type == PropertyType.kos ? 'Kos' : 'Kontrakan',
-                            style: AppTextStyles.labelMd.copyWith(color: Colors.white),
+                            style: AppTextStyles.labelMd
+                                .copyWith(color: Colors.white),
                           ),
                         ),
                       ],
@@ -197,7 +221,8 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
                   const SizedBox(height: 20),
 
                   // ── Info Umum ────────────────────────────────────
-                  Text('Informasi Umum', style: AppTextStyles.displaySm.copyWith(fontSize: 18)),
+                  Text('Informasi Umum',
+                      style: AppTextStyles.displaySm.copyWith(fontSize: 18)),
                   const SizedBox(height: 12),
                   InfoRow(
                     icon: Icons.wc_rounded,
@@ -216,26 +241,95 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
                   ),
                   const SizedBox(height: 20),
 
+                  // ── Kontak Pemilik ───────────────────────────────
+                  if (prop.ownerPhone.isNotEmpty) ...[
+                    Text('Pemilik',
+                        style: AppTextStyles.displaySm.copyWith(fontSize: 18)),
+                    const SizedBox(height: 8),
+                    Container(
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: AppColors.bgSurface,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: AppColors.borderDefault),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.call_rounded,
+                              color: AppColors.primary500),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              '${prop.ownerName} • ${prop.ownerPhone}',
+                              style: AppTextStyles.labelMd
+                                  .copyWith(color: AppColors.textPrimary),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          AppButton(
+                            label: 'Hubungi',
+                            onPressed: () async {
+                              final phone =
+                                  normalizePhoneNumber(prop.ownerPhone);
+                              final uri = Uri(scheme: 'tel', path: phone);
+                              try {
+                                final launched = await launchUrl(uri,
+                                    mode: LaunchMode.externalApplication);
+                                if (!launched && mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            'Tidak bisa membuka aplikasi panggilan.')),
+                                  );
+                                }
+                              } catch (_) {
+                                if (mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            'Gagal membuka nomor telepon.')),
+                                  );
+                                }
+                              }
+                            },
+                            variant: AppButtonVariant.primary,
+                            size: AppButtonSize.sm,
+                            leadingIcon: Icons.call_end_rounded,
+                            fullWidth: false,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+
                   // ── Deskripsi ────────────────────────────────────
-                  Text('Deskripsi', style: AppTextStyles.displaySm.copyWith(fontSize: 18)),
+                  Text('Deskripsi',
+                      style: AppTextStyles.displaySm.copyWith(fontSize: 18)),
                   const SizedBox(height: 8),
-                  Text(prop.description, style: AppTextStyles.bodyMd.copyWith(color: AppColors.textSecondary, height: 1.7)),
+                  Text(prop.description,
+                      style: AppTextStyles.bodyMd.copyWith(
+                          color: AppColors.textSecondary, height: 1.7)),
                   const SizedBox(height: 20),
 
                   // ── Fasilitas ────────────────────────────────────
-                  Text('Fasilitas', style: AppTextStyles.displaySm.copyWith(fontSize: 18)),
+                  Text('Fasilitas',
+                      style: AppTextStyles.displaySm.copyWith(fontSize: 18)),
                   const SizedBox(height: 12),
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
-                    children: prop.facilities.map((f) => _FacilityChip(label: f)).toList(),
+                    children: prop.facilities
+                        .map((f) => _FacilityChip(label: f))
+                        .toList(),
                   ),
                   const SizedBox(height: 20),
 
                   // ── Skema Pembayaran ─────────────────────────────
-                  Text('Skema Pembayaran', style: AppTextStyles.displaySm.copyWith(fontSize: 18)),
+                  Text('Skema Pembayaran',
+                      style: AppTextStyles.displaySm.copyWith(fontSize: 18)),
                   const SizedBox(height: 12),
-                  _PaymentSchemeCard(
+                  const _PaymentSchemeCard(
                     icon: Icons.payments_rounded,
                     title: 'Bayar Penuh',
                     description: 'Bayar total harga sewa sekaligus',
@@ -246,7 +340,8 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
                     _PaymentSchemeCard(
                       icon: Icons.account_balance_wallet_outlined,
                       title: 'Down Payment (DP)',
-                      description: 'Cicil mulai dari ${CurrencyFormatter.format(prop.dpAmount)}',
+                      description:
+                          'Cicil mulai dari ${CurrencyFormatter.format(prop.dpAmount)}',
                       badgeType: BadgeType.dp,
                     ),
                   ],
@@ -255,43 +350,16 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
                     _PaymentSchemeCard(
                       icon: Icons.calendar_month_outlined,
                       title: 'Cicilan',
-                      description: 'Maksimal ${prop.maxTermin} termin pembayaran',
+                      description:
+                          'Maksimal ${prop.maxTermin} termin pembayaran',
                       badgeType: BadgeType.cicilan,
                     ),
                   ],
                   const SizedBox(height: 12),
 
-                  // ── Owner ──────────────────────────────────────
-                  Container(
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      color: AppColors.bgSurface,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: AppColors.borderDefault),
-                    ),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 22,
-                          backgroundColor: AppColors.primary100,
-                          child: Text(
-                            prop.ownerName.isNotEmpty ? prop.ownerName[0] : 'O',
-                            style: AppTextStyles.labelLg.copyWith(color: AppColors.primary500),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Pemilik Properti', style: AppTextStyles.labelSm),
-                            Text(prop.ownerName, style: AppTextStyles.labelMd),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 24), // Memberikan jarak nafas sedikit di akhir konten
+                  const SizedBox(
+                      height:
+                          24), // Memberikan jarak nafas sedikit di akhir konten
                 ],
               ),
             ),
@@ -308,52 +376,66 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
             border: Border(top: BorderSide(color: AppColors.borderDefault)),
           ),
           child: isAvailable
-            ? AppButton(
-                label: 'Ajukan Sewa',
-                onPressed: () {
-                  if (hasPending) {
-                    showDialog(
-                      context: context,
-                      builder: (_) => AlertDialog(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                        title: const Row(
-                          children: [
-                            Icon(Icons.warning_amber_rounded, color: AppColors.warning500),
-                            SizedBox(width: 8),
-                            Text('Transaksi Tertunda', style: TextStyle(fontFamily: 'PlusJakartaSans', fontSize: 18, fontWeight: FontWeight.bold)),
+              ? AppButton(
+                  label: 'Ajukan Sewa',
+                  onPressed: () {
+                    if (hasPending) {
+                      showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16)),
+                          title: const Row(
+                            children: [
+                              Icon(Icons.warning_amber_rounded,
+                                  color: AppColors.warning500),
+                              SizedBox(width: 8),
+                              Text('Transaksi Tertunda',
+                                  style: TextStyle(
+                                      fontFamily: 'PlusJakartaSans',
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                          content: const Text(
+                            'Anda masih memiliki transaksi yang belum dibayar. Silakan selesaikan pembayaran atau batalkan pesanan tersebut di menu Transaksi sebelum mengajukan sewa baru.',
+                            style: TextStyle(
+                                fontFamily: 'PlusJakartaSans',
+                                fontSize: 14,
+                                color: AppColors.textSecondary,
+                                height: 1.5),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('OK, Mengerti',
+                                  style: TextStyle(
+                                      fontFamily: 'PlusJakartaSans',
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.primary600)),
+                            ),
                           ],
                         ),
-                        content: const Text(
-                          'Anda masih memiliki transaksi yang belum dibayar. Silakan selesaikan pembayaran atau batalkan pesanan tersebut di menu Transaksi sebelum mengajukan sewa baru.',
-                          style: TextStyle(fontFamily: 'PlusJakartaSans', fontSize: 14, color: AppColors.textSecondary, height: 1.5),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => BookingPage(property: prop),
                         ),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: const Text('OK, Mengerti', style: TextStyle(fontFamily: 'PlusJakartaSans', fontWeight: FontWeight.bold, color: AppColors.primary600)),
-                          ),
-                        ],
-                      ),
-                    );
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => BookingPage(property: prop),
-                      ),
-                    );
-                  }
-                },
-                variant: AppButtonVariant.primary,
-                size: AppButtonSize.lg,
-                leadingIcon: Icons.edit_note_rounded,
-              )
-            : const AppButton(
-                label: 'Kamar Penuh',
-                onPressed: null,
-                variant: AppButtonVariant.outline,
-                size: AppButtonSize.lg,
-              ),
+                      );
+                    }
+                  },
+                  variant: AppButtonVariant.primary,
+                  size: AppButtonSize.lg,
+                  leadingIcon: Icons.edit_note_rounded,
+                )
+              : const AppButton(
+                  label: 'Kamar Penuh',
+                  onPressed: null,
+                  variant: AppButtonVariant.outline,
+                  size: AppButtonSize.lg,
+                ),
         ),
       ),
     );
@@ -393,7 +475,9 @@ class _FacilityChip extends StatelessWidget {
         children: [
           Icon(_getIcon(), size: 14, color: AppColors.primary500),
           const SizedBox(width: 6),
-          Text(label, style: AppTextStyles.labelSm.copyWith(color: AppColors.primary700)),
+          Text(label,
+              style:
+                  AppTextStyles.labelSm.copyWith(color: AppColors.primary700)),
         ],
       ),
     );

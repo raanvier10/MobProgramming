@@ -8,7 +8,6 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/shared_widgets.dart';
 import '../../../../core/widgets/property_card.dart';
-import '../../../../core/widgets/formatters.dart';
 import '../../property/presentation/pages/property_detail_page.dart';
 
 class ExplorePage extends StatefulWidget {

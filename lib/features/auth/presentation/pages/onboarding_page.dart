@@ -324,7 +324,7 @@ class _AnimatedCTAButtonState extends State<_AnimatedCTAButton>
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: AppColors.primary500.withOpacity(0.35),
+                color: AppColors.primary500.withValues(alpha: 0.35),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
               ),
@@ -453,19 +453,19 @@ class _OnboardingSlide extends StatelessWidget {
               borderRadius: BorderRadius.circular(24),
               gradient: LinearGradient(
                 colors: [
-                  data.gradientColors[0].withOpacity(0.12),
-                  data.gradientColors[1].withOpacity(0.08),
+                  data.gradientColors[0].withValues(alpha: 0.12),
+                  data.gradientColors[1].withValues(alpha: 0.08),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
               border: Border.all(
-                color: data.gradientColors[0].withOpacity(0.2),
+                color: data.gradientColors[0].withValues(alpha: 0.2),
                 width: 1.5,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: data.gradientColors[0].withOpacity(0.12),
+                  color: data.gradientColors[0].withValues(alpha: 0.12),
                   blurRadius: 40,
                   offset: const Offset(0, 16),
                 ),
@@ -521,7 +521,7 @@ class _OnboardingSlide extends StatelessWidget {
           offset: Offset(0, floatOffset * 0.5),
           child: _DecorCircle(
             size: 14,
-            color: data.gradientColors[1].withOpacity(0.4),
+            color: data.gradientColors[1].withValues(alpha: 0.4),
           ),
         ),
       ),
@@ -533,7 +533,7 @@ class _OnboardingSlide extends StatelessWidget {
           offset: Offset(0, -floatOffset * 0.3),
           child: _DecorCircle(
             size: 10,
-            color: data.gradientColors[0].withOpacity(0.5),
+            color: data.gradientColors[0].withValues(alpha: 0.5),
           ),
         ),
       ),
@@ -545,7 +545,7 @@ class _OnboardingSlide extends StatelessWidget {
           offset: Offset(0, floatOffset * 0.7),
           child: _DecorCircle(
             size: 20,
-            color: AppColors.accent400.withOpacity(0.5),
+            color: AppColors.accent400.withValues(alpha: 0.5),
           ),
         ),
       ),
@@ -557,7 +557,7 @@ class _OnboardingSlide extends StatelessWidget {
           offset: Offset(0, -floatOffset * 0.4),
           child: _DecorCircle(
             size: 16,
-            color: AppColors.success500.withOpacity(0.5),
+            color: AppColors.success500.withValues(alpha: 0.5),
           ),
         ),
       ),
@@ -587,7 +587,7 @@ class _AccentDot extends StatelessWidget {
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: color.withOpacity(0.4),
+            color: color.withValues(alpha: 0.4),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),

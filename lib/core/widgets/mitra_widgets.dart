@@ -46,30 +46,30 @@ class SkeletonPropertyCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.borderDefault),
       ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              const SkeletonLoader(width: 48, height: 48, borderRadius: 12),
-              const SizedBox(width: 12),
+              SkeletonLoader(width: 48, height: 48, borderRadius: 12),
+              SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     SkeletonLoader(height: 16, borderRadius: 4),
                     SizedBox(height: 6),
                     SkeletonLoader(width: 100, height: 12, borderRadius: 4),
                   ],
                 ),
               ),
-              const SkeletonLoader(width: 70, height: 24, borderRadius: 20),
+              SkeletonLoader(width: 70, height: 24, borderRadius: 20),
             ],
           ),
-          const SizedBox(height: 12),
-          const SkeletonLoader(height: 12, borderRadius: 4),
-          const SizedBox(height: 8),
-          const SkeletonLoader(width: 150, height: 12, borderRadius: 4),
+          SizedBox(height: 12),
+          SkeletonLoader(height: 12, borderRadius: 4),
+          SizedBox(height: 8),
+          SkeletonLoader(width: 150, height: 12, borderRadius: 4),
         ],
       ),
     );
@@ -275,7 +275,7 @@ class MitraErrorState extends StatelessWidget {
             Container(
               width: 64,
               height: 64,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: AppColors.danger50,
                 shape: BoxShape.circle,
               ),
@@ -337,9 +337,9 @@ class QuickStatChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.08),
+        color: color.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: color.withOpacity(0.2)),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -354,7 +354,7 @@ class QuickStatChip extends StatelessWidget {
           Text(
             label,
             style: AppTextStyles.bodySm.copyWith(
-              color: color.withOpacity(0.7),
+              color: color.withValues(alpha: 0.7),
               fontSize: 11,
             ),
           ),

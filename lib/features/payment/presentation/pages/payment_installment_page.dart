@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -145,7 +144,7 @@ class _PaymentInstallmentPageState extends State<PaymentInstallmentPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Rincian Tagihan', style: AppTextStyles.labelLg),
+                  const Text('Rincian Tagihan', style: AppTextStyles.labelLg),
                   const Divider(height: 16),
                   InfoRow(
                       icon: Icons.apartment_rounded,
@@ -371,7 +370,7 @@ class _VAPaymentCard extends StatelessWidget {
               const Icon(Icons.account_balance_outlined,
                   color: AppColors.primary500, size: 22),
               const SizedBox(width: 8),
-              Text('Virtual Account', style: AppTextStyles.labelLg),
+              const Text('Virtual Account', style: AppTextStyles.labelLg),
               const Spacer(),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
@@ -388,7 +387,7 @@ class _VAPaymentCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          Text('Nomor Virtual Account', style: AppTextStyles.labelSm),
+          const Text('Nomor Virtual Account', style: AppTextStyles.labelSm),
           const SizedBox(height: 6),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -444,11 +443,11 @@ class _QRISPaymentCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Row(
+          const Row(
             children: [
-              const Icon(Icons.qr_code_2_rounded,
+              Icon(Icons.qr_code_2_rounded,
                   color: AppColors.primary500, size: 22),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               Text('QRIS', style: AppTextStyles.labelLg),
             ],
           ),
@@ -473,7 +472,7 @@ class _QRISPaymentCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Text(
+          const Text(
             'Scan QR di atas dengan aplikasi e-wallet atau mobile banking Anda',
             style: AppTextStyles.bodySm,
             textAlign: TextAlign.center,

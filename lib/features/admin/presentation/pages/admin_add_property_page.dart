@@ -24,6 +24,7 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
   final _priceCtrl = TextEditingController();
   final _areaCtrl = TextEditingController();
   final _addressCtrl = TextEditingController();
+  final _ownerPhoneCtrl = TextEditingController();
   final _dpAmountCtrl = TextEditingController();
   final _maxTerminCtrl = TextEditingController();
   PropertyType _type = PropertyType.kos;
@@ -66,6 +67,7 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
     _priceCtrl.text = p.pricePerMonth.toInt().toString();
     _areaCtrl.text = p.area;
     _addressCtrl.text = p.fullAddress;
+    _ownerPhoneCtrl.text = p.ownerPhone;
     _dpAmountCtrl.text = p.dpAmount.toInt().toString();
     _maxTerminCtrl.text = p.maxTermin.toString();
     _type = p.type;
@@ -78,9 +80,7 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
     _imageUrls = List.from(p.imageUrls);
   }
 
-  void _saveDraft() {
-    // Fitur draft dinonaktifkan atas permintaan user agar form selalu fresh
-  }
+  // Draft feature disabled per user request to keep form always fresh
 
   bool _validateCurrentStep() {
     if (_step == 0) return _formKeys[0].currentState?.validate() ?? false;
@@ -143,6 +143,7 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
         longitude: _selectedLocation.longitude,
         ownerId: user.id,
         ownerName: user.name,
+        ownerPhone: _ownerPhoneCtrl.text.trim(),
         isDpEnabled: _isDpEnabled,
         dpAmount: _isDpEnabled ? dpAmt : 0,
         isCicilanEnabled: _isCicilanEnabled,
@@ -158,6 +159,7 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
         facilities: _facilities,
         area: _areaCtrl.text.trim(),
         fullAddress: _addressCtrl.text.trim(),
+        ownerPhone: _ownerPhoneCtrl.text.trim(),
         latitude: _selectedLocation.latitude,
         longitude: _selectedLocation.longitude,
         isDpEnabled: _isDpEnabled,
@@ -184,6 +186,7 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
     _priceCtrl.dispose();
     _areaCtrl.dispose();
     _addressCtrl.dispose();
+    _ownerPhoneCtrl.dispose();
     _dpAmountCtrl.dispose();
     _maxTerminCtrl.dispose();
     super.dispose();
@@ -209,9 +212,9 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_rounded),
             onPressed: () {
-              if (_step > 0)
+              if (_step > 0) {
                 _back();
-              else {
+              } else {
                 Navigator.pop(context);
               }
             },
@@ -259,7 +262,7 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
           Text('Informasi Dasar',
               style: AppTextStyles.displaySm.copyWith(fontSize: 18)),
           const SizedBox(height: 4),
-          Text('Isi detail utama propertimu', style: AppTextStyles.bodySm),
+          const Text('Isi detail utama propertimu', style: AppTextStyles.bodySm),
           const SizedBox(height: 16),
           AppTextField(
               label: 'Nama Properti',
@@ -296,11 +299,19 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
               maxLines: 4,
               validator: (v) =>
                   v!.trim().isEmpty ? 'Deskripsi wajib diisi' : null),
+          const SizedBox(height: 12),
+          AppTextField(
+              label: 'Nomor HP Pemilik',
+              hint: 'Contoh: 081234567890',
+              controller: _ownerPhoneCtrl,
+              keyboardType: TextInputType.phone,
+              validator: (v) =>
+                  v!.trim().isEmpty ? 'Nomor HP wajib diisi' : null),
           const SizedBox(height: 20),
           Text('Fasilitas',
               style: AppTextStyles.displaySm.copyWith(fontSize: 16)),
           const SizedBox(height: 4),
-          Text('Pilih minimal 1 fasilitas', style: AppTextStyles.bodySm),
+          const Text('Pilih minimal 1 fasilitas', style: AppTextStyles.bodySm),
           const SizedBox(height: 12),
           Wrap(
               spacing: 8,
@@ -342,7 +353,7 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
         Text('Foto Properti',
             style: AppTextStyles.displaySm.copyWith(fontSize: 18)),
         const SizedBox(height: 4),
-        Text('Tambahkan foto agar propertimu lebih menarik',
+        const Text('Tambahkan foto agar propertimu lebih menarik',
             style: AppTextStyles.bodySm),
         const SizedBox(height: 16),
         GestureDetector(
@@ -357,7 +368,8 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
                 color: AppColors.primary50,
                 borderRadius: BorderRadius.circular(20),
                 image: const DecorationImage(
-                  image: NetworkImage('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=800'),
+                  image: NetworkImage(
+                      'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=800'),
                   fit: BoxFit.cover,
                   opacity: 0.15,
                 ),
@@ -373,7 +385,10 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
                   color: Colors.white,
                   shape: BoxShape.circle,
                   boxShadow: [
-                    BoxShadow(color: AppColors.primary500.withOpacity(0.1), blurRadius: 12, offset: const Offset(0, 4)),
+                    BoxShadow(
+                        color: AppColors.primary500.withValues(alpha: 0.1),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4)),
                   ],
                 ),
                 child: const Icon(Icons.add_a_photo_rounded,
@@ -385,7 +400,9 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
                       .copyWith(color: AppColors.primary700)),
               const SizedBox(height: 4),
               Text('Format JPG, PNG • Maks 5MB',
-                  style: AppTextStyles.bodySm.copyWith(color: AppColors.primary700.withOpacity(0.6), fontSize: 12)),
+                  style: AppTextStyles.bodySm.copyWith(
+                      color: AppColors.primary700.withValues(alpha: 0.6),
+                      fontSize: 12)),
             ]),
           ),
         ),
@@ -452,29 +469,30 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Padding(
           padding: const EdgeInsets.all(16),
-          child:
-              Form(
-                key: _formKeys[2],
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text('Lokasi Properti',
-                      style: AppTextStyles.displaySm.copyWith(fontSize: 18)),
-                  const SizedBox(height: 4),
-                  Text('Ketuk peta untuk menandai lokasi',
-                      style: AppTextStyles.bodySm),
-                  const SizedBox(height: 12),
-                  AppTextField(
-                      label: 'Wilayah Karawang',
-                hint: 'Contoh: Teluk Jambe',
-                controller: _areaCtrl,
-                validator: (v) => v!.isEmpty ? 'Wajib diisi' : null),
-            const SizedBox(height: 12),
-            AppTextField(
-                label: 'Alamat Lengkap',
-                hint: 'Jl. Merdeka No. 123...',
-                controller: _addressCtrl,
-                maxLines: 2,
-                validator: (v) => v!.isEmpty ? 'Wajib diisi' : null),
-          ]))),
+          child: Form(
+              key: _formKeys[2],
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Lokasi Properti',
+                        style: AppTextStyles.displaySm.copyWith(fontSize: 18)),
+                    const SizedBox(height: 4),
+                    const Text('Ketuk peta untuk menandai lokasi',
+                        style: AppTextStyles.bodySm),
+                    const SizedBox(height: 12),
+                    AppTextField(
+                        label: 'Wilayah Karawang',
+                        hint: 'Contoh: Teluk Jambe',
+                        controller: _areaCtrl,
+                        validator: (v) => v!.isEmpty ? 'Wajib diisi' : null),
+                    const SizedBox(height: 12),
+                    AppTextField(
+                        label: 'Alamat Lengkap',
+                        hint: 'Jl. Merdeka No. 123...',
+                        controller: _addressCtrl,
+                        maxLines: 2,
+                        validator: (v) => v!.isEmpty ? 'Wajib diisi' : null),
+                  ]))),
       Expanded(
           child: Stack(children: [
         FlutterMap(
@@ -536,7 +554,7 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
             Text('Harga & Pembayaran',
                 style: AppTextStyles.displaySm.copyWith(fontSize: 18)),
             const SizedBox(height: 4),
-            Text('Atur harga dan skema pembayaran',
+            const Text('Atur harga dan skema pembayaran',
                 style: AppTextStyles.bodySm),
             const SizedBox(height: 16),
             AppTextField(
@@ -567,11 +585,13 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
                         if (!_isDpEnabled) return null;
                         if (v!.isEmpty) return 'Nominal DP wajib diisi';
                         final dp = double.tryParse(v);
-                        if (dp == null || dp <= 0)
+                        if (dp == null || dp <= 0) {
                           return 'Masukkan angka valid';
+                        }
                         final price = double.tryParse(_priceCtrl.text) ?? 0;
-                        if (price > 0 && dp > price)
+                        if (price > 0 && dp > price) {
                           return 'DP tidak boleh melebihi harga';
+                        }
                         return null;
                       })),
             const SizedBox(height: 12),
@@ -607,7 +627,7 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
         Text('Review & Publikasi',
             style: AppTextStyles.displaySm.copyWith(fontSize: 18)),
         const SizedBox(height: 4),
-        Text('Periksa kembali sebelum dipublikasikan',
+        const Text('Periksa kembali sebelum dipublikasikan',
             style: AppTextStyles.bodySm),
         const SizedBox(height: 16),
         _reviewSection('Info Dasar', [
@@ -622,6 +642,8 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
                       : 'Campur'),
           _reviewItem(
               'Fasilitas', _facilities.isEmpty ? '-' : _facilities.join(', ')),
+          _reviewItem('No. HP Pemilik',
+              _ownerPhoneCtrl.text.isEmpty ? '-' : _ownerPhoneCtrl.text),
         ]),
         _reviewSection('Lokasi', [
           _reviewItem('Wilayah', _areaCtrl.text.isEmpty ? '-' : _areaCtrl.text),
@@ -659,7 +681,7 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary500.withOpacity(0.04),
+              color: AppColors.primary500.withValues(alpha: 0.04),
               blurRadius: 20,
               offset: const Offset(0, 8),
             )
@@ -691,17 +713,18 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-          color: value ? AppColors.primary50 : AppColors.bgSurface,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: value ? AppColors.primary200 : AppColors.borderDefault),
-          boxShadow: [
-            if (value)
-              BoxShadow(
-                color: AppColors.primary500.withOpacity(0.05),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
-              )
-          ],
+        color: value ? AppColors.primary50 : AppColors.bgSurface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+            color: value ? AppColors.primary200 : AppColors.borderDefault),
+        boxShadow: [
+          if (value)
+            BoxShadow(
+              color: AppColors.primary500.withValues(alpha: 0.05),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            )
+        ],
       ),
       child: Row(children: [
         Container(
@@ -710,22 +733,28 @@ class _AdminAddPropertyPageState extends State<AdminAddPropertyPage> {
             color: value ? AppColors.primary100 : AppColors.bgMuted,
             shape: BoxShape.circle,
           ),
-          child: Icon(value ? Icons.check_rounded : Icons.payments_outlined, 
-               size: 20, color: value ? AppColors.primary600 : AppColors.textTertiary),
+          child: Icon(value ? Icons.check_rounded : Icons.payments_outlined,
+              size: 20,
+              color: value ? AppColors.primary600 : AppColors.textTertiary),
         ),
         const SizedBox(width: 12),
         Expanded(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(title, style: AppTextStyles.labelMd.copyWith(color: value ? AppColors.primary700 : AppColors.textPrimary)),
+          Text(title,
+              style: AppTextStyles.labelMd.copyWith(
+                  color: value ? AppColors.primary700 : AppColors.textPrimary)),
           Text(subtitle,
-              style: AppTextStyles.bodySm
-                  .copyWith(color: value ? AppColors.primary600.withOpacity(0.8) : AppColors.textTertiary, fontSize: 12)),
+              style: AppTextStyles.bodySm.copyWith(
+                  color: value
+                      ? AppColors.primary600.withValues(alpha: 0.8)
+                      : AppColors.textTertiary,
+                  fontSize: 12)),
         ])),
         Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: AppColors.primary500),
+            activeThumbColor: AppColors.primary500),
       ]),
     );
   }

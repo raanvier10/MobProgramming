@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage>
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    AppColors.primary400.withOpacity(0.12),
+                    AppColors.primary400.withValues(alpha: 0.12),
                     Colors.transparent,
                   ],
                 ),
@@ -111,7 +111,7 @@ class _LoginPageState extends State<LoginPage>
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    AppColors.accent400.withOpacity(0.10),
+                    AppColors.accent400.withValues(alpha: 0.10),
                     Colors.transparent,
                   ],
                 ),
@@ -125,7 +125,7 @@ class _LoginPageState extends State<LoginPage>
               width: 12,
               height: 12,
               decoration: BoxDecoration(
-                color: AppColors.accent400.withOpacity(0.6),
+                color: AppColors.accent400.withValues(alpha: 0.6),
                 shape: BoxShape.circle,
               ),
             ),
@@ -137,7 +137,7 @@ class _LoginPageState extends State<LoginPage>
               width: 18,
               height: 18,
               decoration: BoxDecoration(
-                color: AppColors.success500.withOpacity(0.4),
+                color: AppColors.success500.withValues(alpha: 0.4),
                 shape: BoxShape.circle,
               ),
             ),
@@ -496,7 +496,7 @@ class _ErrorBanner extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.danger50,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.danger500.withOpacity(0.3)),
+        border: Border.all(color: AppColors.danger500.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [

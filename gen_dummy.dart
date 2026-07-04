@@ -27,7 +27,7 @@ void main() {
   String result = '';
   
   for (int i = 7; i <= 30; i++) {
-    final name = names[rnd.nextInt(names.length)] + ' ' + areas[rnd.nextInt(areas.length)] + ' ' + i.toString();
+    final name = '${names[rnd.nextInt(names.length)]} ${areas[rnd.nextInt(areas.length)]} $i';
     final ptype = propTypes[rnd.nextInt(propTypes.length)];
     final gender = genders[rnd.nextInt(genders.length)];
     final status = rnd.nextDouble() > 0.7 ? statuses[1] : statuses[0]; // 70% tersedia
@@ -35,11 +35,15 @@ void main() {
     
     final imgCount = rnd.nextInt(3) + 1;
     final imgUrls = <String>[];
-    for (int j = 0; j < imgCount; j++) imgUrls.add(images[rnd.nextInt(images.length)]);
+    for (int j = 0; j < imgCount; j++) {
+      imgUrls.add(images[rnd.nextInt(images.length)]);
+    }
     
     final facCount = rnd.nextInt(5) + 3;
     final facs = <String>{};
-    for (int j = 0; j < facCount; j++) facs.add(facilitiesPool[rnd.nextInt(facilitiesPool.length)]);
+    for (int j = 0; j < facCount; j++) {
+      facs.add(facilitiesPool[rnd.nextInt(facilitiesPool.length)]);
+    }
     
     final area = areas[rnd.nextInt(areas.length)];
     final address = 'Jl. Random No. $i, $area, Karawang';

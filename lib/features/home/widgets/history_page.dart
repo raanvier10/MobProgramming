@@ -123,8 +123,8 @@ class _HistoryPageState extends State<HistoryPage> {
           color: isSelected ? AppColors.primary600 : Colors.white,
           borderRadius: BorderRadius.circular(20),
           boxShadow: isSelected 
-              ? [BoxShadow(color: AppColors.primary500.withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 4))]
-              : [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 4, offset: const Offset(0, 2))],
+              ? [BoxShadow(color: AppColors.primary500.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))]
+              : [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 4, offset: const Offset(0, 2))],
         ),
         child: Text(label, style: TextStyle(fontFamily: 'PlusJakartaSans', fontSize: 13,
           fontWeight: FontWeight.w600, color: isSelected ? Colors.white : AppColors.textSecondary)),
@@ -204,10 +204,10 @@ class TransactionCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.bgSurface,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.borderDefault.withOpacity(0.5)),
+        border: Border.all(color: AppColors.borderDefault.withValues(alpha: 0.5)),
         boxShadow: [
           BoxShadow(
-            color: AppColors.neutral500.withOpacity(0.06),
+            color: AppColors.neutral500.withValues(alpha: 0.06),
             blurRadius: 30,
             offset: const Offset(0, 10),
           )
@@ -242,7 +242,7 @@ class TransactionCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
-                    color: _borderColor.withOpacity(0.12),
+                    color: _borderColor.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -260,7 +260,7 @@ class TransactionCard extends StatelessWidget {
           // Divider pemisah tengah
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Divider(height: 1, color: AppColors.borderDefault.withOpacity(0.6)),
+            child: Divider(height: 1, color: AppColors.borderDefault.withValues(alpha: 0.6)),
           ),
 
           // ── BAGIAN TENGAH (DETAIL INFO) ─────────────────────────────
@@ -307,7 +307,7 @@ class TransactionCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: AppColors.primary50.withOpacity(0.5),
+              color: AppColors.primary50.withValues(alpha: 0.5),
               borderRadius: const BorderRadius.vertical(bottom: Radius.circular(20)),
             ),
             child: Column(
@@ -345,7 +345,7 @@ class TransactionCard extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                           decoration: BoxDecoration(
-                            color: AppColors.primary100.withOpacity(0.7),
+                            color: AppColors.primary100.withValues(alpha: 0.7),
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
@@ -407,7 +407,7 @@ class TransactionCard extends StatelessWidget {
                             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Pesanan Berhasil Dibatalkan')));
                           },
                           style: OutlinedButton.styleFrom(
-                            foregroundColor: AppColors.danger700, side: BorderSide(color: AppColors.danger500.withOpacity(0.3)),
+                            foregroundColor: AppColors.danger700, side: BorderSide(color: AppColors.danger500.withValues(alpha: 0.3)),
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                             padding: const EdgeInsets.symmetric(vertical: 12),
                           ),

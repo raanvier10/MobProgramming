@@ -12,10 +12,10 @@ class AppState extends ChangeNotifier {
   bool get isMitra => _currentUser?.role == UserRole.mitra;
 
   // ── Data Lists (in-memory) ────────────────────────────────────
-  List<AppUser> _users = List.from(SeedData.users);
-  List<Property> _properties = List.from(SeedData.properties);
-  List<AppTransaction> _transactions = List.from(SeedData.transactions);
-  List<Tenant> _tenants = List.from(SeedData.tenants);
+  final List<AppUser> _users = List.from(SeedData.users);
+  final List<Property> _properties = List.from(SeedData.properties);
+  final List<AppTransaction> _transactions = List.from(SeedData.transactions);
+  final List<Tenant> _tenants = List.from(SeedData.tenants);
 
   List<Property> get allProperties => _properties;
   List<AppTransaction> get allTransactions => _transactions;
@@ -38,8 +38,9 @@ class AppState extends ChangeNotifier {
   List<AppTransaction> get myTransactions =>
       _transactions.where((t) => t.userId == _currentUser?.id).toList();
 
-  List<Tenant> get myTenancies =>
-      _tenants.where((t) => t.userId == _currentUser?.id && t.isActive).toList();
+  List<Tenant> get myTenancies => _tenants
+      .where((t) => t.userId == _currentUser?.id && t.isActive)
+      .toList();
 
   // ── Mitra's data ──────────────────────────────────────────────
   List<Property> get mitraProperties =>
@@ -48,28 +49,43 @@ class AppState extends ChangeNotifier {
   List<AppTransaction> get mitraTransactions =>
       _transactions.where((t) => t.ownerId == _currentUser?.id).toList();
 
-  List<Tenant> get mitraTenants =>
-      _tenants.where((t) =>
-          mitraProperties.any((p) => p.id == t.propertyId) && t.isActive).toList();
+  List<Tenant> get mitraTenants => _tenants
+      .where(
+          (t) => mitraProperties.any((p) => p.id == t.propertyId) && t.isActive)
+      .toList();
 
-  List<Tenant> get mitraArchivedTenants =>
-      _tenants.where((t) =>
-          mitraProperties.any((p) => p.id == t.propertyId) && !t.isActive).toList();
+  List<Tenant> get mitraArchivedTenants => _tenants
+      .where((t) =>
+          mitraProperties.any((p) => p.id == t.propertyId) && !t.isActive)
+      .toList();
 
   // ── Mitra Statistics ──────────────────────────────────────────
-  double get mitraTotalRevenue =>
-      mitraTransactions
-          .where((t) => t.status == TransactionStatus.lunas)
-          .fold(0.0, (sum, t) => sum + t.totalAmount);
+  bool isTransactionFullyPaid(AppTransaction transaction) {
+    if (transaction.status == TransactionStatus.lunas) return true;
 
-  double get mitraPendingRevenue =>
-      mitraTransactions
-          .where((t) => t.status == TransactionStatus.pending)
-          .fold(0.0, (sum, t) => sum + t.totalAmount);
+    if (transaction.scheme == PaymentScheme.penuh) {
+      return false;
+    }
 
-  double get mitraCicilanPiutang =>
-      mitraTransactions
-          .where((t) => t.status == TransactionStatus.cicilan)
+    if (transaction.totalTermin != null && transaction.paidTermin != null) {
+      return transaction.paidTermin! >= transaction.totalTermin!;
+    }
+
+    return false;
+  }
+
+  double get mitraTotalRevenue => mitraTransactions
+      .where(isTransactionFullyPaid)
+      .fold(0.0, (sum, t) => sum + t.totalAmount);
+
+  double get mitraPendingRevenue => mitraTransactions
+      .where((t) => t.status == TransactionStatus.pending)
+      .fold(0.0, (sum, t) => sum + t.totalAmount);
+
+  double get mitraCicilanPiutang => mitraTransactions
+          .where((t) =>
+              !isTransactionFullyPaid(t) &&
+              t.status == TransactionStatus.cicilan)
           .fold(0.0, (sum, t) {
         final remaining = (t.totalTermin ?? 0) - (t.paidTermin ?? 0);
         return sum + (t.amountPerTermin ?? 0) * remaining;
@@ -90,17 +106,18 @@ class AppState extends ChangeNotifier {
       _transactions.where((t) => t.propertyId == propertyId).toList();
 
   /// Check if property has active transactions (pending or cicilan)
-  bool hasActiveTransactions(String propertyId) =>
-      _transactions.any((t) =>
-          t.propertyId == propertyId &&
-          (t.status == TransactionStatus.pending ||
-              t.status == TransactionStatus.cicilan));
+  bool hasActiveTransactions(String propertyId) => _transactions.any((t) =>
+      t.propertyId == propertyId &&
+      (t.status == TransactionStatus.pending ||
+          t.status == TransactionStatus.cicilan));
 
   // ── Auth Actions ──────────────────────────────────────────────
   bool login(String email, String password) {
     try {
       final user = _users.firstWhere(
-        (u) => u.email.toLowerCase() == email.toLowerCase() && u.password == password,
+        (u) =>
+            u.email.toLowerCase() == email.toLowerCase() &&
+            u.password == password,
       );
       _currentUser = user;
       notifyListeners();
@@ -111,7 +128,8 @@ class AppState extends ChangeNotifier {
   }
 
   bool register(String name, String email, String phone, String password) {
-    final exists = _users.any((u) => u.email.toLowerCase() == email.toLowerCase());
+    final exists =
+        _users.any((u) => u.email.toLowerCase() == email.toLowerCase());
     if (exists) return false;
     final newUser = AppUser(
       id: 'user-${DateTime.now().millisecondsSinceEpoch}',
@@ -195,7 +213,8 @@ class AppState extends ChangeNotifier {
     if (scheme == PaymentScheme.dp) {
       dpAmount = property.dpAmount;
       totalTermin = 2; // DP dianggap 2 termin: DP & Pelunasan
-      amountPerTermin = dpAmount; // Simpan nominal DP ke amountPerTermin untuk dicatat di kuitansi
+      amountPerTermin =
+          dpAmount; // Simpan nominal DP ke amountPerTermin untuk dicatat di kuitansi
     } else if (scheme == PaymentScheme.cicilan) {
       totalTermin = property.maxTermin;
       amountPerTermin = totalAmount / property.maxTermin;
@@ -220,7 +239,10 @@ class AppState extends ChangeNotifier {
       createdAt: DateTime.now(),
       vaNumber: vaNumber,
       totalTermin: totalTermin,
-      paidTermin: (scheme == PaymentScheme.cicilan || scheme == PaymentScheme.dp) ? 0 : null,
+      paidTermin:
+          (scheme == PaymentScheme.cicilan || scheme == PaymentScheme.dp)
+              ? 0
+              : null,
       amountPerTermin: amountPerTermin,
     );
 
@@ -280,10 +302,10 @@ class AppState extends ChangeNotifier {
     final idx = _transactions.indexWhere((t) => t.id == transactionId);
     if (idx != -1) {
       final t = _transactions[idx];
-      
+
       // Hapus tenant sementara yang dibuat saat checkout
       _tenants.removeWhere((tenant) => tenant.transactionId == transactionId);
-      
+
       // Cek apakah ada tenant/transaksi aktif lain di properti ini
       // Jika tidak ada, kembalikan status ke tersedia
       final propertyId = t.propertyId;
@@ -291,10 +313,10 @@ class AppState extends ChangeNotifier {
       if (activeTenants.isEmpty) {
         setRoomStatus(propertyId, RoomStatus.tersedia);
       }
-      
+
       // Hapus transaksi dari daftar
       _transactions.removeAt(idx);
-      
+
       notifyListeners();
     }
   }
@@ -324,8 +346,9 @@ class AppState extends ChangeNotifier {
     return _properties.where((p) {
       if (query != null && query.isNotEmpty) {
         final q = query.toLowerCase().trim();
-        final addressWithoutCity = p.fullAddress.toLowerCase().replaceAll(', karawang', '');
-        
+        final addressWithoutCity =
+            p.fullAddress.toLowerCase().replaceAll(', karawang', '');
+
         if (!p.name.toLowerCase().contains(q) &&
             !p.area.toLowerCase().contains(q) &&
             !addressWithoutCity.contains(q)) {
@@ -346,13 +369,13 @@ class AppState extends ChangeNotifier {
   }
 
   List<String> get karawangAreas => [
-    'Karawang Kota',
-    'Karawang Baru',
-    'Cikampek',
-    'Teluk Jambe',
-    'Rengasdengklok',
-    'Ciampel',
-    'Purwasari',
-    'Klari',
-  ];
+        'Karawang Kota',
+        'Karawang Baru',
+        'Cikampek',
+        'Teluk Jambe',
+        'Rengasdengklok',
+        'Ciampel',
+        'Purwasari',
+        'Klari',
+      ];
 }
