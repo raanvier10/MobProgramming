@@ -94,7 +94,7 @@ class _PropertyCardState extends State<_PropertyCard> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary500.withOpacity(0.06), 
+            color: AppColors.primary500.withValues(alpha: 0.06), 
             blurRadius: 24, 
             offset: const Offset(0, 12),
           )
@@ -111,7 +111,7 @@ class _PropertyCardState extends State<_PropertyCard> {
                 fit: BoxFit.cover,
               ),
               boxShadow: [
-                BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 8, offset: const Offset(0, 4))
+                BoxShadow(color: Colors.black.withValues(alpha: 0.08), blurRadius: 8, offset: const Offset(0, 4))
               ]
             )),
           const SizedBox(width: 14),
@@ -131,7 +131,7 @@ class _PropertyCardState extends State<_PropertyCard> {
               Expanded(child: Text(p.area, style: AppTextStyles.bodySm, maxLines: 1, overflow: TextOverflow.ellipsis)),
             ]),
             const SizedBox(height: 8),
-            Text(CurrencyFormatter.formatCompact(p.pricePerMonth) + ' / bln',
+            Text('${CurrencyFormatter.formatCompact(p.pricePerMonth)} / bln',
                 style: AppTextStyles.labelLg.copyWith(color: AppColors.primary600)),
           ])),
         ])),
@@ -144,8 +144,8 @@ class _PropertyCardState extends State<_PropertyCard> {
           child: Row(children: [
             _InfoChip(Icons.people_outline_rounded, '${tenants.length} penghuni'),
             const SizedBox(width: 12),
-            if (p.isDpEnabled) _InfoChip(Icons.payments_outlined, 'DP'),
-            if (p.isCicilanEnabled) ...[const SizedBox(width: 8), _InfoChip(Icons.calendar_today_outlined, 'Cicilan')],
+            if (p.isDpEnabled) const _InfoChip(Icons.payments_outlined, 'DP'),
+            if (p.isCicilanEnabled) ...[const SizedBox(width: 8), const _InfoChip(Icons.calendar_today_outlined, 'Cicilan')],
           ])),
 
         const Divider(height: 20, indent: 14, endIndent: 14),
@@ -182,9 +182,9 @@ class _PropertyCardState extends State<_PropertyCard> {
                   decoration: BoxDecoration(
                     color: isAvailable ? AppColors.danger50 : AppColors.success50,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: isAvailable ? AppColors.danger500.withOpacity(0.3) : AppColors.success500.withOpacity(0.3)),
+                    border: Border.all(color: isAvailable ? AppColors.danger500.withValues(alpha: 0.3) : AppColors.success500.withValues(alpha: 0.3)),
                     boxShadow: [
-                      BoxShadow(color: isAvailable ? AppColors.danger500.withOpacity(0.1) : AppColors.success500.withOpacity(0.1), blurRadius: 6, offset: const Offset(0, 3))
+                      BoxShadow(color: isAvailable ? AppColors.danger500.withValues(alpha: 0.1) : AppColors.success500.withValues(alpha: 0.1), blurRadius: 6, offset: const Offset(0, 3))
                     ]
                   ),
                   child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -206,7 +206,7 @@ class _PropertyCardState extends State<_PropertyCard> {
                 color: Colors.white, borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: AppColors.primary200),
                 boxShadow: [
-                  BoxShadow(color: AppColors.primary500.withOpacity(0.08), blurRadius: 6, offset: const Offset(0, 3))
+                  BoxShadow(color: AppColors.primary500.withValues(alpha: 0.08), blurRadius: 6, offset: const Offset(0, 3))
                 ]
               ),
               child: const Row(children: [
@@ -233,7 +233,7 @@ class _PropertyCardState extends State<_PropertyCard> {
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: AppColors.danger50, borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.danger500.withOpacity(0.3)),
+                border: Border.all(color: AppColors.danger500.withValues(alpha: 0.3)),
               ),
               child: const Icon(Icons.delete_outline_rounded, size: 16, color: AppColors.danger700),
             ),

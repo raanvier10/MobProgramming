@@ -206,7 +206,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   onPressed: () => Navigator.pop(context),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 13),
-                    side: BorderSide(color: Colors.grey.withOpacity(0.35)),
+                    side: BorderSide(color: Colors.grey.withValues(alpha: 0.35)),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   child: Text('Batal',
@@ -350,7 +350,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       borderRadius: BorderRadius.circular(24),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.neutral500.withOpacity(0.06),
+                          color: AppColors.neutral500.withValues(alpha: 0.06),
                           blurRadius: 30,
                           offset: const Offset(0, 10),
                         ),
@@ -369,7 +369,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 boxShadow: [
                                   BoxShadow(
                                     color:
-                                        AppColors.primary500.withOpacity(0.12),
+                                        AppColors.primary500.withValues(alpha: 0.12),
                                     blurRadius: 20,
                                     offset: const Offset(0, 8),
                                   ),
@@ -433,7 +433,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       boxShadow: [
                                         BoxShadow(
                                           color: AppColors.accent500
-                                              .withOpacity(0.3),
+                                              .withValues(alpha: 0.3),
                                           blurRadius: 8,
                                           offset: const Offset(0, 4),
                                         )
@@ -469,7 +469,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     borderRadius: BorderRadius.circular(100),
                                     border: Border.all(
                                         color: AppColors.accent300
-                                            .withOpacity(0.5)),
+                                            .withValues(alpha: 0.5)),
                                   ),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -534,7 +534,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.neutral500.withOpacity(0.03),
+                            color: AppColors.neutral500.withValues(alpha: 0.03),
                             blurRadius: 20,
                             offset: const Offset(0, 6),
                           ),
@@ -588,7 +588,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.neutral500.withOpacity(0.03),
+                            color: AppColors.neutral500.withValues(alpha: 0.03),
                             blurRadius: 20,
                             offset: const Offset(0, 6),
                           ),
@@ -675,7 +675,7 @@ class HeaderPatternPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.white.withOpacity(0.04)
+      ..color = Colors.white.withValues(alpha: 0.04)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.2;
 
@@ -728,7 +728,7 @@ class _MenuItem extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: iconColor.withOpacity(0.08),
+                  color: iconColor.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(icon, size: 20, color: iconColor),
@@ -744,7 +744,7 @@ class _MenuItem extends StatelessWidget {
                   ),
                 ),
               ),
-              Icon(Icons.chevron_right_rounded,
+              const Icon(Icons.chevron_right_rounded,
                   size: 22, color: AppColors.neutral300),
             ],
           ),

@@ -52,7 +52,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                   onPressed: () => Navigator.pop(context),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 13),
-                    side: BorderSide(color: Colors.grey.withOpacity(0.35)),
+                    side: BorderSide(color: Colors.grey.withValues(alpha: 0.35)),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),
                   ),
@@ -155,7 +155,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                                 child: Image.network(
                                   'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop',
                                   fit: BoxFit.cover,
-                                  color: AppColors.primary800.withOpacity(0.5),
+                                  color: AppColors.primary800.withValues(alpha: 0.5),
                                   colorBlendMode: BlendMode.srcOver,
                                 ),
                               ),
@@ -200,12 +200,12 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                                           ),
                                           decoration: BoxDecoration(
                                             color:
-                                                Colors.white.withOpacity(0.15),
+                                                Colors.white.withValues(alpha: 0.15),
                                             borderRadius:
                                                 BorderRadius.circular(20),
                                             border: Border.all(
                                               color:
-                                                  Colors.white.withOpacity(0.2),
+                                                  Colors.white.withValues(alpha: 0.2),
                                             ),
                                           ),
                                           child: const Row(
@@ -247,7 +247,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                                       'Kelola kamar dan penghuni dengan mudah hari ini.',
                                       style: TextStyle(
                                         fontFamily: 'PlusJakartaSans',
-                                        color: Colors.white.withOpacity(0.85),
+                                        color: Colors.white.withValues(alpha: 0.85),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w400,
                                         letterSpacing: 0.2,
@@ -327,7 +327,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                     const SizedBox(height: 24),
 
                     // ── Recent Transactions ───────────────────
-                    SectionHeader(title: 'Transaksi Terbaru'),
+                    const SectionHeader(title: 'Transaksi Terbaru'),
                     const SizedBox(height: 12),
                     if (transactions.isEmpty)
                       const EmptyState(
@@ -402,8 +402,8 @@ class _QuickChip extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.15),
-            border: Border.all(color: color.withOpacity(0.3), width: 0.5),
+            color: color.withValues(alpha: 0.15),
+            border: Border.all(color: color.withValues(alpha: 0.3), width: 0.5),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Row(
@@ -453,7 +453,7 @@ class _RevenueCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary600.withOpacity(0.3),
+            color: AppColors.primary600.withValues(alpha: 0.3),
             blurRadius: 24,
             offset: const Offset(0, 10),
           ),
@@ -468,7 +468,7 @@ class _RevenueCard extends StatelessWidget {
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.15),
+                  color: Colors.white.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: const Icon(Icons.trending_up_rounded,
@@ -509,7 +509,7 @@ class _RevenueCard extends StatelessWidget {
           const SizedBox(height: 16),
           Container(
             height: 1,
-            color: Colors.white.withOpacity(0.15),
+            color: Colors.white.withValues(alpha: 0.15),
           ),
           const SizedBox(height: 12),
           Row(
@@ -524,7 +524,7 @@ class _RevenueCard extends StatelessWidget {
               Container(
                 width: 1,
                 height: 30,
-                color: Colors.white.withOpacity(0.15),
+                color: Colors.white.withValues(alpha: 0.15),
               ),
               Expanded(
                 child: _RevenueMini(
@@ -649,14 +649,14 @@ class _StatusTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: color.withOpacity(0.15)),
+        border: Border.all(color: color.withValues(alpha: 0.15)),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, size: 24, color: color),
@@ -669,7 +669,7 @@ class _StatusTile extends StatelessWidget {
                 Text(
                   label,
                   style: AppTextStyles.labelMd
-                      .copyWith(color: color.withOpacity(0.8)),
+                      .copyWith(color: color.withValues(alpha: 0.8)),
                 ),
                 Text(
                   '$count',
@@ -690,7 +690,7 @@ class _StatusTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: color.withOpacity(0.15)),
+        border: Border.all(color: color.withValues(alpha: 0.15)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -698,7 +698,7 @@ class _StatusTile extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(icon, size: 22, color: color),
@@ -711,7 +711,7 @@ class _StatusTile extends StatelessWidget {
           Text(
             label,
             style:
-                AppTextStyles.labelSm.copyWith(color: color.withOpacity(0.8)),
+                AppTextStyles.labelSm.copyWith(color: color.withValues(alpha: 0.8)),
           ),
         ],
       ),
@@ -745,7 +745,7 @@ class _PropertySummaryCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary500.withOpacity(0.06), // tinted shadow
+            color: AppColors.primary500.withValues(alpha: 0.06), // tinted shadow
             blurRadius: 24,
             offset: const Offset(0, 12),
           ),
@@ -1052,7 +1052,7 @@ class _MitraTransactionMini extends StatelessWidget {
                 margin: const EdgeInsets.only(top: 4),
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
-                  color: _borderColor.withOpacity(0.1),
+                  color: _borderColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(

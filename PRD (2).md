@@ -11,7 +11,7 @@
 | Peran | Deskripsi |
 |---|---|
 | **User (Pencari Hunian)** | Mencari, memesan, dan membayar hunian |
-| **Admin/Mitra (Pemilik Properti)** | Mendaftarkan, mengelola properti, dan memantau transaksi |
+| **Admin/Mitra (Pemilik)** | Mendaftarkan, mengelola properti, dan memantau transaksi |
 
 ---
 
@@ -62,7 +62,7 @@
 | U6 | Transaksi Fleksibel | Pilih skema (Bayar Penuh / DP / Cicilan), bayar via VA atau QRIS |
 | U7 | Riwayat & Tagihan | Histori transaksi, kuitansi digital, jadwal jatuh tempo |
 
-### 3.2 Admin/Mitra — Pemilik Properti
+### 3.2 Admin/Mitra — Pemilik
 
 | # | Fitur | Deskripsi |
 |---|---|---|
@@ -94,7 +94,7 @@ Buka App
                                                     └─ Status: Penghuni Aktif
 ```
 
-### 4.2 Alur Pemilik Properti
+### 4.2 Alur Pemilik
 
 ```
 Buka App

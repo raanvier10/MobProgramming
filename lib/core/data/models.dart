@@ -70,6 +70,7 @@ class Property {
   double longitude;
   String ownerId;
   String ownerName;
+  String ownerPhone;
   // Payment config
   bool isDpEnabled;
   double dpAmount;
@@ -92,6 +93,7 @@ class Property {
     required this.longitude,
     required this.ownerId,
     required this.ownerName,
+    this.ownerPhone = '',
     this.isDpEnabled = false,
     this.dpAmount = 0,
     this.isCicilanEnabled = false,
@@ -115,6 +117,7 @@ class Property {
     double? dpAmount,
     bool? isCicilanEnabled,
     int? maxTermin,
+    String? ownerPhone,
   }) {
     return Property(
       id: id,
@@ -132,6 +135,7 @@ class Property {
       longitude: longitude ?? this.longitude,
       ownerId: ownerId,
       ownerName: ownerName,
+      ownerPhone: ownerPhone ?? this.ownerPhone,
       isDpEnabled: isDpEnabled ?? this.isDpEnabled,
       dpAmount: dpAmount ?? this.dpAmount,
       isCicilanEnabled: isCicilanEnabled ?? this.isCicilanEnabled,
@@ -213,8 +217,8 @@ class Tenant {
     this.archivedDate,
   });
 
-  DateTime get checkOutDate =>
-      DateTime(checkInDate.year, checkInDate.month + durationMonths, checkInDate.day);
+  DateTime get checkOutDate => DateTime(
+      checkInDate.year, checkInDate.month + durationMonths, checkInDate.day);
 
   int get remainingDays => checkOutDate.difference(DateTime.now()).inDays;
 }

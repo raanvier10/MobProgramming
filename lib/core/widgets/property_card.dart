@@ -73,7 +73,7 @@ class PropertyCard extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                     decoration: BoxDecoration(
-                      color: AppColors.primary700.withOpacity(0.85),
+                      color: AppColors.primary700.withValues(alpha: 0.85),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
@@ -124,7 +124,7 @@ class PropertyCard extends StatelessWidget {
                         CurrencyFormatter.format(property.pricePerMonth),
                         style: AppTextStyles.price,
                       ),
-                      Text(
+                      const Text(
                         '/bulan',
                         style: AppTextStyles.labelSm,
                       ),
@@ -135,9 +135,9 @@ class PropertyCard extends StatelessWidget {
                   Wrap(
                     spacing: 4,
                     children: [
-                      StatusBadge(type: BadgeType.bayarPenuh),
-                      if (property.isDpEnabled) StatusBadge(type: BadgeType.dp),
-                      if (property.isCicilanEnabled) StatusBadge(type: BadgeType.cicilan),
+                      const StatusBadge(type: BadgeType.bayarPenuh),
+                      if (property.isDpEnabled) const StatusBadge(type: BadgeType.dp),
+                      if (property.isCicilanEnabled) const StatusBadge(type: BadgeType.cicilan),
                     ],
                   ),
                 ],
@@ -222,8 +222,8 @@ class PropertyCardMini extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 12),
+            const Padding(
+              padding: EdgeInsets.only(right: 12),
               child: Icon(Icons.chevron_right_rounded, color: AppColors.primary500, size: 20),
             ),
           ],

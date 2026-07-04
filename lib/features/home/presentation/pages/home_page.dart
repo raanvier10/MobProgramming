@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage>
                       width: 48,
                       height: 5,
                       decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.3),
+                        color: Colors.grey.withValues(alpha: 0.3),
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
@@ -120,7 +120,7 @@ class _HomePageState extends State<HomePage>
                         child: Container(
                           padding: const EdgeInsets.all(6),
                           decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.1),
+                            color: Colors.grey.withValues(alpha: 0.1),
                             shape: BoxShape.circle,
                           ),
                           child: const Icon(Icons.close_rounded, color: AppColors.textSecondary, size: 20),
@@ -162,7 +162,7 @@ class _HomePageState extends State<HomePage>
                       activeTrackColor: AppColors.primary500,
                       inactiveTrackColor: AppColors.primary50,
                       thumbColor: AppColors.primary500,
-                      overlayColor: AppColors.primary500.withOpacity(0.15),
+                      overlayColor: AppColors.primary500.withValues(alpha: 0.15),
                       thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 10),
                       overlayShape: const RoundSliderOverlayShape(overlayRadius: 20),
                     ),
@@ -207,12 +207,12 @@ class _HomePageState extends State<HomePage>
                             color: isSelected ? AppColors.primary500 : Colors.white,
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
-                              color: isSelected ? Colors.transparent : Colors.grey.withOpacity(0.25),
+                              color: isSelected ? Colors.transparent : Colors.grey.withValues(alpha: 0.25),
                             ),
                             boxShadow: isSelected
                                 ? [
                                     BoxShadow(
-                                      color: AppColors.primary500.withOpacity(0.3),
+                                      color: AppColors.primary500.withValues(alpha: 0.3),
                                       blurRadius: 8,
                                       offset: const Offset(0, 3),
                                     )
@@ -255,7 +255,7 @@ class _HomePageState extends State<HomePage>
                             },
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 16),
-                              side: BorderSide(color: Colors.grey.withOpacity(0.3)),
+                              side: BorderSide(color: Colors.grey.withValues(alpha: 0.3)),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                             ),
                             child: Text(
@@ -281,7 +281,7 @@ class _HomePageState extends State<HomePage>
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                               elevation: 4,
-                              shadowColor: AppColors.primary500.withOpacity(0.4),
+                              shadowColor: AppColors.primary500.withValues(alpha: 0.4),
                             ),
                             child: Text(
                               'Terapkan Filter',
@@ -379,7 +379,7 @@ class _HomePageState extends State<HomePage>
 
                 // ── Property List ────────────────────────────────────
                 properties.isEmpty
-                    ? SliverToBoxAdapter(
+                    ? const SliverToBoxAdapter(
                         child: EmptyState(
                           icon: Icons.search_off_rounded,
                           title: 'Tidak Ditemukan',
@@ -457,7 +457,7 @@ class _HomeHeader extends StatelessWidget {
               colors: [AppColors.primary500, AppColors.primary400],
             ),
             borderRadius:
-                const BorderRadius.vertical(bottom: Radius.circular(16)),
+                BorderRadius.vertical(bottom: Radius.circular(16)),
           ),
           child: Stack(
             children: [
@@ -481,7 +481,7 @@ class _HomeHeader extends StatelessWidget {
                                 Text(
                                   'Lokasi Kamu',
                                   style: AppTextStyles.bodySm.copyWith(
-                                    color: Colors.white.withOpacity(0.7),
+                                    color: Colors.white.withValues(alpha: 0.7),
                                     fontSize: 11,
                                   ),
                                 ),
@@ -499,7 +499,7 @@ class _HomeHeader extends StatelessWidget {
                                     ),
                                     Icon(Icons.keyboard_arrow_down_rounded,
                                         size: 16,
-                                        color: Colors.white.withOpacity(0.8)),
+                                        color: Colors.white.withValues(alpha: 0.8)),
                                   ],
                                 ),
                               ],
@@ -509,10 +509,10 @@ class _HomeHeader extends StatelessWidget {
                             width: 40,
                             height: 40,
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.18),
+                              color: Colors.white.withValues(alpha: 0.18),
                               shape: BoxShape.circle,
                               border: Border.all(
-                                  color: Colors.white.withOpacity(0.3),
+                                  color: Colors.white.withValues(alpha: 0.3),
                                   width: 1),
                             ),
                             child: const Icon(Icons.notifications_outlined,
@@ -531,7 +531,7 @@ class _HomeHeader extends StatelessWidget {
                           borderRadius: BorderRadius.circular(24),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.08),
+                              color: Colors.black.withValues(alpha: 0.08),
                               blurRadius: 12,
                               offset: const Offset(0, 4),
                             ),
@@ -634,7 +634,7 @@ class _HomeHeader extends StatelessWidget {
                                   style: TextStyle(
                                     fontFamily: 'PlusJakartaSans',
                                     fontSize: 11,
-                                    color: Colors.white.withOpacity(0.78),
+                                    color: Colors.white.withValues(alpha: 0.78),
                                     height: 1.5,
                                   ),
                                 ),
@@ -713,9 +713,9 @@ class _QuickStat extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.08),
+          color: color.withValues(alpha: 0.08),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: color.withOpacity(0.2), width: 1.2),
+          border: Border.all(color: color.withValues(alpha: 0.2), width: 1.2),
         ),
         child: Column(
           children: [
@@ -723,7 +723,7 @@ class _QuickStat extends StatelessWidget {
               width: 36,
               height: 36,
               decoration: BoxDecoration(
-                color: color.withOpacity(0.15),
+                color: color.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
               ),
               child: Icon(icon, size: 20, color: color),
@@ -777,16 +777,16 @@ class _TypeChip extends StatelessWidget {
         curve: Curves.easeOut,
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.white : Colors.white.withOpacity(0.15),
+          color: isSelected ? Colors.white : Colors.white.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(22),
           border: Border.all(
-            color: isSelected ? Colors.transparent : Colors.white.withOpacity(0.3),
+            color: isSelected ? Colors.transparent : Colors.white.withValues(alpha: 0.3),
             width: 1.2,
           ),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 8,
                     offset: const Offset(0, 3),
                   ),
@@ -815,7 +815,7 @@ class _HomeHeaderPatternPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.white.withOpacity(0.04)
+      ..color = Colors.white.withValues(alpha: 0.04)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.2;
 
@@ -837,11 +837,11 @@ class _HomeHeaderPatternPainter extends CustomPainter {
 
     // Gelembung besar (Large Bubbles)
     final bubbleFill = Paint()
-      ..color = Colors.white.withOpacity(0.03)
+      ..color = Colors.white.withValues(alpha: 0.03)
       ..style = PaintingStyle.fill;
 
     final bubbleStroke = Paint()
-      ..color = Colors.white.withOpacity(0.05)
+      ..color = Colors.white.withValues(alpha: 0.05)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0;
 

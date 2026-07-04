@@ -129,7 +129,7 @@ class _TenantCardState extends State<_TenantCard> {
               decoration: BoxDecoration(
                 color: isExpiring ? AppColors.danger50 : AppColors.success50,
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: isExpiring ? AppColors.danger500.withOpacity(0.3) : AppColors.success500.withOpacity(0.3))),
+                border: Border.all(color: isExpiring ? AppColors.danger500.withValues(alpha: 0.3) : AppColors.success500.withValues(alpha: 0.3))),
               child: Column(children: [
                 Text('${t.remainingDays}', style: AppTextStyles.displaySm.copyWith(
                   fontSize: 16, color: isExpiring ? AppColors.danger700 : AppColors.success700)),
@@ -217,7 +217,7 @@ class _TenantCardState extends State<_TenantCard> {
               ],
             ),
             const SizedBox(height: 24),
-            Text('Informasi Sewa', style: AppTextStyles.labelLg),
+            const Text('Informasi Sewa', style: AppTextStyles.labelLg),
             const SizedBox(height: 12),
             _DetailRow(icon: Icons.apartment_rounded, label: 'Properti', value: t.propertyName),
             _DetailRow(icon: Icons.door_front_door_outlined, label: 'Kamar', value: t.roomNumber),
